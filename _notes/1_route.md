@@ -7,6 +7,6 @@ implement user profile page,  cars management page (CRUD), maintenance history p
 
 implement a dashboard for admin, manage all users, analysis use 
 
-
+Implement pages firstly, auth later
 Keep thing basic at beginning. 
 ```
