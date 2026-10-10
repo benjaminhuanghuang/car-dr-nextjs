@@ -11,7 +11,7 @@
 
 - Next.js 16 + React 19 + Tailwind CSS 4 +
 - PostgreSQL(supabase) + Drizzle
--
+- Supabase Auth
 - vercel AI SDK 6
 
 ## Engineering
