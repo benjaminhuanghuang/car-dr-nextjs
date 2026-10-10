@@ -1,9 +1,11 @@
 import { Suspense } from "react";
-import { getMaintenanceForCar } from "@/lib/queries";
+import { notFound } from "next/navigation";
+import { getCarById, getMaintenanceForCar } from "@/lib/queries";
 import {
   createMaintenanceRecord,
   deleteMaintenanceRecord,
 } from "@/lib/actions/maintenance";
+import { requireUser } from "@/lib/session";
 
 export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
@@ -25,6 +27,13 @@ async function MaintenanceContent({
 }) {
   const { id } = await paramsPromise;
   const carId = Number(id);
+  const user = await requireUser();
+  const car = await getCarById(carId);
+
+  if (!car || car.userId !== user.id) {
+    notFound();
+  }
+
   const records = await getMaintenanceForCar(carId);
   const createRecordForCar = createMaintenanceRecord.bind(null, carId);
 

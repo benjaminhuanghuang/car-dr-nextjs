@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCarById } from "@/lib/queries";
 import { updateCar, deleteCar } from "@/lib/actions/cars";
+import { requireUser } from "@/lib/session";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
@@ -21,9 +22,10 @@ async function CarDetail({
 }) {
   const { id } = await paramsPromise;
   const carId = Number(id);
+  const user = await requireUser();
   const car = await getCarById(carId);
 
-  if (!car) {
+  if (!car || car.userId !== user.id) {
     notFound();
   }
 

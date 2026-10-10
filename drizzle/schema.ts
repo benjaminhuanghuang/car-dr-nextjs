@@ -6,10 +6,12 @@ import {
   boolean,
   integer,
   timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
+  authUserId: uuid("auth_user_id").unique(),
   fullName: text("full_name"),
   phone: varchar("phone", { length: 256 }),
   isAdmin: boolean("is_admin").notNull().default(false),

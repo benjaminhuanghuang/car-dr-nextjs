@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { getCarsForUser } from "@/lib/queries";
-import { getCurrentUser } from "@/lib/session";
+import { requireUser } from "@/lib/session";
 
 export default function CarsPage() {
   return (
@@ -20,7 +20,7 @@ export default function CarsPage() {
 }
 
 async function CarsList() {
-  const user = getCurrentUser();
+  const user = await requireUser();
   const userCars = await getCarsForUser(user.id);
 
   if (userCars.length === 0) {

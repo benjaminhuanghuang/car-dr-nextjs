@@ -5,10 +5,10 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { cars } from "@/drizzle/schema";
-import { getCurrentUser } from "@/lib/session";
+import { requireUser } from "@/lib/session";
 
 export async function createCar(formData: FormData) {
-  const user = getCurrentUser();
+  const user = await requireUser();
 
   await db.insert(cars).values({
     userId: user.id,
@@ -23,7 +23,7 @@ export async function createCar(formData: FormData) {
 }
 
 export async function updateCar(carId: number, formData: FormData) {
-  const user = getCurrentUser();
+  const user = await requireUser();
 
   await db
     .update(cars)
@@ -40,7 +40,7 @@ export async function updateCar(carId: number, formData: FormData) {
 }
 
 export async function deleteCar(carId: number) {
-  const user = getCurrentUser();
+  const user = await requireUser();
 
   await db
     .delete(cars)
