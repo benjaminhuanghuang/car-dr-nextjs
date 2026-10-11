@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { LoginForm } from "./login-form";
+import { SigninForm } from "./signin-form";
 
-export default function LoginPage() {
+export default function SigninPage() {
   return (
     <>
       <h1 className="text-2xl font-semibold">Sign In</h1>
-      <LoginForm />
+      <SigninForm />
       <div className="flex gap-4 text-sm">
         <Link href="/signup" className="underline">
           Create an account

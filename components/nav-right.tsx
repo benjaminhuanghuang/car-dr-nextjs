@@ -11,14 +11,14 @@ export async function NavRight() {
   if (!user) {
     return (
       <div className="flex items-center gap-4 text-sm font-medium">
-        <NavLink href="/login" className="text-muted-foreground">
-          Log In
+        <NavLink href="/signin" className="text-muted-foreground">
+          Sign In
         </NavLink>
         <Link
           href="/signup"
           className={cn(
             buttonVariants({ size: "lg" }),
-            "rounded-full px-6 uppercase tracking-wide",
+            "rounded-full px-6 uppercase tracking-wide"
           )}
         >
           Get Started

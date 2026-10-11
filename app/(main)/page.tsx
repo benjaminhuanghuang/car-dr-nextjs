@@ -222,7 +222,7 @@ export default function Home() {
               Get Started Free
             </Link>
             <Link
-              href="/login"
+              href="/signin"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
                 "h-12 border-primary-foreground bg-transparent px-8 text-base text-primary-foreground hover:bg-primary-foreground/10",
