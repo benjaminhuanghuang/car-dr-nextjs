@@ -1,4 +1,5 @@
 import "server-only";
+import { connection } from "next/server";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
@@ -12,6 +13,11 @@ export type CurrentUser = {
 };
 
 export async function getCurrentUser(): Promise<CurrentUser | null> {
+  // Supabase's auth-js calls Date.now() internally (session expiry checks).
+  // Cache Components flags unstable globals even inside a cookies()-reading
+  // function, so mark this dynamic explicitly before calling into it.
+  await connection();
+
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
   const authUser = data.user;
