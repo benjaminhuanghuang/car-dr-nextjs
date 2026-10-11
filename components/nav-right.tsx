@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { getCurrentUser } from "@/lib/session";
 import { signOut } from "@/lib/actions/auth";
+import { NavLink } from "./nav-link";
 
 export async function NavRight() {
   const user = await getCurrentUser();
@@ -8,29 +8,17 @@ export async function NavRight() {
   if (!user) {
     return (
       <div className="flex gap-4">
-        <Link href="/login" className="hover:underline">
-          Sign in
-        </Link>
-        <Link href="/signup" className="hover:underline">
-          Sign up
-        </Link>
+        <NavLink href="/login">Sign in</NavLink>
+        <NavLink href="/signup">Sign up</NavLink>
       </div>
     );
   }
 
   return (
     <div className="flex items-center gap-4">
-      <Link href="/profile" className="hover:underline">
-        Profile
-      </Link>
-      <Link href="/cars" className="hover:underline">
-        Cars
-      </Link>
-      {user.isAdmin && (
-        <Link href="/admin" className="hover:underline">
-          Admin
-        </Link>
-      )}
+      <NavLink href="/profile">Profile</NavLink>
+      <NavLink href="/cars">Cars</NavLink>
+      {user.isAdmin && <NavLink href="/admin">Admin</NavLink>}
       <form action={signOut}>
         <button type="submit" className="hover:underline">
           Sign out
