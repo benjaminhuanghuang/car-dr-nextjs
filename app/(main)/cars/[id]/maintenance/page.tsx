@@ -11,12 +11,12 @@ export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
 ) {
   return (
-    <>
+    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 p-6">
       <h1 className="text-2xl font-semibold">Maintenance History</h1>
       <Suspense fallback={<p>Loading history...</p>}>
         <MaintenanceContent paramsPromise={props.params} />
       </Suspense>
-    </>
+    </div>
   );
 }
 
