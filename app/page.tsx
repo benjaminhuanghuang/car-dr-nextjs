@@ -4,7 +4,7 @@ import { getCurrentUser } from "@/lib/session";
 
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-6">
+    <>
       <h1 className="text-2xl font-semibold">Car DR</h1>
       <Suspense fallback={<p className="text-zinc-600">Loading...</p>}>
         <Greeting />
@@ -17,7 +17,7 @@ export default function Home() {
           View profile
         </Link>
       </div>
-    </main>
+    </>
   );
 }
 

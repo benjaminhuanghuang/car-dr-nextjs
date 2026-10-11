@@ -7,11 +7,9 @@ import { requireUser } from "@/lib/session";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-6">
-      <Suspense fallback={<p>Loading car...</p>}>
-        <CarDetail paramsPromise={props.params} />
-      </Suspense>
-    </main>
+    <Suspense fallback={<p>Loading car...</p>}>
+      <CarDetail paramsPromise={props.params} />
+    </Suspense>
   );
 }
 
