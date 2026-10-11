@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512" role="img" aria-label="Car Doctor logo, black on white">
+<rect x="2" y="2" width="196" height="196" rx="44" fill="#FFFFFF" stroke="#000000" stroke-width="4"/>
+<g fill="none" stroke="#404040" stroke-width="3" stroke-linecap="round"><path d="M31 107A19 19 0 0 1 40.5 90.5"/><path d="M24 107A26 26 0 0 1 37 84.5" opacity="0.5"/></g>
+<path fill="#000000" d="M180 152V140C180 133 176 129 169 128L150 126L138 112C134 106 128 102 120 102H92C86 102 81 105 76 110L68 119H40C30 119 20 124 20 132V152C20 156 23 159 27 159H173C177 159 180 156 180 152Z"/>
+<path fill="#FFFFFF" d="M132 118L124 106H108V118Z"/><path fill="#FFFFFF" d="M101 106H92C88 106 85 108 82 112L76 118H101Z"/>
+<rect x="24" y="134" width="8" height="5" rx="2.5" fill="#FFFFFF"/>
+<circle cx="52" cy="159" r="18" fill="#FFFFFF"/><circle cx="146" cy="159" r="18" fill="#FFFFFF"/>
+<circle cx="52" cy="159" r="13" fill="#000000"/><circle cx="146" cy="159" r="13" fill="#000000"/>
+<circle cx="52" cy="159" r="4.5" fill="#FFFFFF"/><circle cx="146" cy="159" r="4.5" fill="#FFFFFF"/>
+<g fill="none" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"><path d="M128 60C104 60 84 66 74 82C68 92 66 99 64 104"/><path d="M128 60C132 46 140 34 152 26"/><path d="M128 60C142 54 158 48 170 38"/></g>
+<g fill="none" stroke="#404040" stroke-width="8" stroke-linecap="butt"><path d="M145.3 30.4L152 26"/><path d="M163.9 43.1L170 38"/><path d="M67 96.6L64 104"/></g>
+<circle cx="128" cy="60" r="6" fill="#404040" stroke="#FFFFFF" stroke-width="2"/>
+<g fill="none" stroke="#000000" stroke-width="10" stroke-linecap="round"><path d="M153.7 24.9L161.2 19.9"/><path d="M171.5 36.7L178.4 31"/></g>
+<g fill="none" stroke="#8C8C8C" stroke-width="2" stroke-linecap="round"><path d="M155.2 20.9L158.2 17.8"/><path d="M172.6 32.6L176 29.7"/></g>
+<circle cx="50" cy="107" r="13" fill="#000000" stroke="#FFFFFF" stroke-width="4"/>
+<circle cx="50" cy="107" r="9" fill="none" stroke="#8C8C8C" stroke-width="1.5"/>
+<circle cx="50" cy="107" r="5.5" fill="#FFFFFF"/>
+</svg>
