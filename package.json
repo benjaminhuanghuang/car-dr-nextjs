@@ -10,7 +10,8 @@
     "prepare": "husky",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "update-commit-hash": "sh scripts/update_commit_hash.sh"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
