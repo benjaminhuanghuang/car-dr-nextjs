@@ -7,7 +7,7 @@ export function SignupForm() {
   const [state, action, pending] = useActionState(signUp, undefined);
 
   return (
-    <form action={action} className="flex max-w-sm flex-col gap-3">
+    <form action={action} className="flex w-full max-w-sm flex-col gap-3">
       <input
         name="fullName"
         placeholder="Full name"

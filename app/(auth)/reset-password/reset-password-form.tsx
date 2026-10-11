@@ -7,7 +7,7 @@ export function ResetPasswordForm() {
   const [state, action, pending] = useActionState(resetPassword, undefined);
 
   return (
-    <form action={action} className="flex max-w-sm flex-col gap-3">
+    <form action={action} className="flex w-full max-w-sm flex-col gap-3">
       <input
         name="password"
         type="password"
