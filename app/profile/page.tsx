@@ -3,12 +3,12 @@ import { requireUser } from "@/lib/session";
 
 export default function ProfilePage() {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-6">
+    <>
       <h1 className="text-2xl font-semibold">Profile</h1>
       <Suspense fallback={<p>Loading...</p>}>
         <ProfileDetails />
       </Suspense>
-    </main>
+    </>
   );
 }
 

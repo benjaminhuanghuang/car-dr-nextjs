@@ -4,12 +4,12 @@ import { requireAdmin } from "@/lib/session";
 
 export default function AdminPage() {
   return (
-    <main className="flex flex-1 flex-col gap-6 p-6">
+    <>
       <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
       <Suspense fallback={<p>Loading...</p>}>
         <AdminContent />
       </Suspense>
-    </main>
+    </>
   );
 }
 

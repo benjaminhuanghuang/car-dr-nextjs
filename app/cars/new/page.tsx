@@ -2,7 +2,7 @@ import { createCar } from "@/lib/actions/cars";
 
 export default function NewCarPage() {
   return (
-    <main className="flex flex-1 flex-col gap-4 p-6">
+    <>
       <h1 className="text-2xl font-semibold">Add a Car</h1>
       <form action={createCar} className="flex max-w-sm flex-col gap-3">
         <input
@@ -36,6 +36,6 @@ export default function NewCarPage() {
           Save
         </button>
       </form>
-    </main>
+    </>
   );
 }
