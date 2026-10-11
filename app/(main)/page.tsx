@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Sparkles,
   ClipboardList,
@@ -140,17 +141,14 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div className="relative h-150 overflow-hidden rounded-2xl bg-linear-to-br from-primary/5 to-primary/10">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Car
-                  className="h-32 w-32 text-primary/40"
-                  strokeWidth={1}
-                />
-              </div>
-              <div className="pointer-events-none absolute inset-0">
-                <div className="absolute top-10 right-10 h-20 w-20 rounded-full bg-primary/20 blur-3xl" />
-                <div className="absolute bottom-10 left-10 h-32 w-32 rounded-full bg-primary/20 blur-3xl" />
-              </div>
+            <div className="relative h-150 overflow-hidden rounded-2xl">
+              <Image
+                src="/car-maintain.webp"
+                alt="Mechanic performing maintenance on a car"
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
           </div>
         </div>
