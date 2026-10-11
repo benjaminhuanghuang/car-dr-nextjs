@@ -1,5 +1,8 @@
+import Link from "next/link";
+import { cn } from "cn";
 import { getCurrentUser } from "@/lib/session";
 import { signOut } from "@/lib/actions/auth";
+import { buttonVariants } from "@/components/ui/button";
 import { NavLink } from "./nav-link";
 
 export async function NavRight() {
@@ -7,15 +10,25 @@ export async function NavRight() {
 
   if (!user) {
     return (
-      <div className="flex gap-4">
-        <NavLink href="/login">Sign in</NavLink>
-        <NavLink href="/signup">Sign up</NavLink>
+      <div className="flex items-center gap-4 text-sm font-medium">
+        <NavLink href="/login" className="text-muted-foreground">
+          Log In
+        </NavLink>
+        <Link
+          href="/signup"
+          className={cn(
+            buttonVariants({ size: "lg" }),
+            "rounded-full px-6 uppercase tracking-wide",
+          )}
+        >
+          Get Started
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 text-sm font-medium">
       <NavLink href="/profile">Profile</NavLink>
       <NavLink href="/cars">Cars</NavLink>
       {user.isAdmin && <NavLink href="/admin">Admin</NavLink>}
