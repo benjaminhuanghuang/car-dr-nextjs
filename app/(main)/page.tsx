@@ -223,7 +223,7 @@ export default function Home() {
               href="/signin"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "h-12 border-primary-foreground bg-transparent px-8 text-base text-primary-foreground hover:bg-primary-foreground/10",
+                "h-12 border-primary-foreground bg-transparent px-8 text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground",
               )}
             >
               Sign In

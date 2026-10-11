@@ -19,9 +19,7 @@ export async function Footer() {
         </div>
         <p>&copy; {year} Car Doctor. All rights reserved.</p>
         {/* Filled in at release time by scripts/update_commit_hash.sh */}
-        <span className="text-sm text-muted-foreground" id="commit-hash">
-          ab7384a
-        </span>
+        <span className="text-sm text-muted-foreground" id="commit-hash">962c083</span>
       </div>
     </footer>
   );
