@@ -3,7 +3,7 @@
 import { useActionState } from "react";
 import { signIn } from "@/lib/actions/auth";
 
-export function LoginForm() {
+export function SigninForm() {
   const [state, action, pending] = useActionState(signIn, undefined);
 
   return (

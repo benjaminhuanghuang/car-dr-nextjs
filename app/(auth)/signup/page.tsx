@@ -6,7 +6,7 @@ export default function SignupPage() {
     <>
       <h1 className="text-2xl font-semibold">Sign Up</h1>
       <SignupForm />
-      <Link href="/login" className="text-sm underline">
+      <Link href="/signin" className="text-sm underline">
         Already have an account? Sign in
       </Link>
     </>
