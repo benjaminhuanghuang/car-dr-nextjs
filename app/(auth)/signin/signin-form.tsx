@@ -2,7 +2,6 @@
 
 import { useActionState } from "react";
 import { signIn } from "@/lib/actions/auth";
-import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldError,
@@ -10,10 +9,10 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+import { SubmitButton } from "@/components/submit-button";
 
 export function SigninForm() {
-  const [state, action, pending] = useActionState(signIn, undefined);
+  const [state, action] = useActionState(signIn, undefined);
 
   return (
     <form action={action}>
@@ -40,10 +39,9 @@ export function SigninForm() {
         </Field>
         {state?.error && <FieldError>{state.error}</FieldError>}
         <Field>
-          <Button type="submit" size="lg" disabled={pending}>
-            {pending && <Spinner data-icon="inline-start" />}
-            {pending ? "Signing in..." : "Sign in"}
-          </Button>
+          <SubmitButton size="lg" pendingText="Signing in...">
+            Sign in
+          </SubmitButton>
         </Field>
       </FieldGroup>
     </form>

@@ -19,6 +19,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { PageHeader } from "@/components/page-header";
+import { SubmitButton } from "@/components/submit-button";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
@@ -117,7 +128,7 @@ async function CarDetail({
             </FieldGroup>
           </CardContent>
           <CardFooter className="justify-end">
-            <Button type="submit">Save changes</Button>
+            <SubmitButton pendingText="Saving...">Save changes</SubmitButton>
           </CardFooter>
         </form>
       </Card>
@@ -126,15 +137,35 @@ async function CarDetail({
         <CardHeader>
           <CardTitle>Delete this car</CardTitle>
           <CardDescription>
-            Permanently removes this car. This can&apos;t be undone.
+            Permanently removes this car and all of its maintenance records.
+            This can&apos;t be undone.
           </CardDescription>
         </CardHeader>
         <CardFooter className="justify-end">
-          <form action={deleteCarWithId}>
-            <Button type="submit" variant="destructive">
-              Delete car
-            </Button>
-          </form>
+          <AlertDialog>
+            <AlertDialogTrigger
+              render={<Button variant="destructive">Delete car</Button>}
+            />
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Delete {car.year} {car.make} {car.model}?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  This car and all of its maintenance records will be
+                  permanently deleted. This can&apos;t be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <form action={deleteCarWithId}>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <SubmitButton variant="destructive" pendingText="Deleting...">
+                    Delete car
+                  </SubmitButton>
+                </AlertDialogFooter>
+              </form>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardFooter>
       </Card>
     </>

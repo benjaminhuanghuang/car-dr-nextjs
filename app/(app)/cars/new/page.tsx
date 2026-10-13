@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createCar } from "@/lib/actions/cars";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import { SubmitButton } from "@/components/submit-button";
 import {
   Card,
   CardContent,
@@ -59,7 +60,7 @@ export default function NewCarPage() {
             <Link href="/cars" className={buttonVariants({ variant: "ghost" })}>
               Cancel
             </Link>
-            <Button type="submit">Save</Button>
+            <SubmitButton pendingText="Saving...">Save</SubmitButton>
           </CardFooter>
         </form>
       </Card>

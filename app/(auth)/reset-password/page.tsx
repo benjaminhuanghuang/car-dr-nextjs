@@ -12,7 +12,9 @@ export default function ResetPasswordPage() {
     <Card className="w-full">
       <CardHeader>
         <CardTitle className="text-xl font-semibold">Reset Password</CardTitle>
-        <CardDescription>Choose a new password for your account.</CardDescription>
+        <CardDescription>
+          Choose a new password for your account.
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ResetPasswordForm />
