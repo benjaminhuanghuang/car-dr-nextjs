@@ -1,7 +1,13 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Trash2, Wrench } from "lucide-react";
+import {
+  ArrowLeft,
+  ClipboardPlus,
+  History,
+  Trash2,
+  Wrench,
+} from "lucide-react";
 import { getCarById, getMaintenanceForCar } from "@/lib/queries";
 import {
   createMaintenanceRecord,
@@ -47,6 +53,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { IconTile } from "@/components/icon-tile";
 
 export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
@@ -96,7 +103,10 @@ async function MaintenanceContent({
 
       <Card>
         <CardHeader>
-          <CardTitle>Records</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <IconTile icon={History} size="sm" />
+            Records
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {records.length === 0 ? (
@@ -209,7 +219,10 @@ async function MaintenanceContent({
           className="contents"
         >
           <CardHeader>
-            <CardTitle>Add a record</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <IconTile icon={ClipboardPlus} size="sm" />
+              Add a record
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <FieldGroup>
