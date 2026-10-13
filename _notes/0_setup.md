@@ -36,5 +36,7 @@ shadcn — CLI 本身，被装进 dependencies（CLI 默认行为，不是我手
 Add component
 
 ```sh
-npx shadcn add button input card badge table
+npx shadcn@latest add label button input card badge table
+
+npx shadcn@latest add skeleton sonner alert-dialog alert dropdown-menu separator select textarea
 ```
