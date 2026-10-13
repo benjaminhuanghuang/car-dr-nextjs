@@ -2,46 +2,51 @@
 
 import { useActionState } from "react";
 import { signUp } from "@/lib/actions/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export function SignupForm() {
   const [state, action, pending] = useActionState(signUp, undefined);
 
   return (
-    <form action={action} className="flex w-full max-w-sm flex-col gap-3">
-      <input
+    <form action={action} className="flex flex-col gap-3">
+      <Input
         name="fullName"
         placeholder="Full name"
+        aria-label="Full name"
+        autoComplete="name"
         required
-        className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
       />
-      <input
+      <Input
         name="email"
         type="email"
         placeholder="Email"
+        aria-label="Email"
+        autoComplete="email"
         required
-        className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
       />
-      <input
+      <Input
         name="password"
         type="password"
         placeholder="Password"
+        aria-label="Password"
+        autoComplete="new-password"
         required
         minLength={6}
-        className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
       />
-      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
+      {state?.error && (
+        <p role="alert" className="text-sm text-destructive">
+          {state.error}
+        </p>
+      )}
       {state?.message && (
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+        <p role="status" className="text-sm text-muted-foreground">
           {state.message}
         </p>
       )}
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded bg-foreground px-4 py-2 text-background disabled:opacity-50"
-      >
+      <Button type="submit" size="lg" disabled={pending}>
         {pending ? "Signing up..." : "Sign up"}
-      </button>
+      </Button>
     </form>
   );
 }

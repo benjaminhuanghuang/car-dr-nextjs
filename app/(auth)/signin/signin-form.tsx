@@ -2,34 +2,38 @@
 
 import { useActionState } from "react";
 import { signIn } from "@/lib/actions/auth";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export function SigninForm() {
   const [state, action, pending] = useActionState(signIn, undefined);
 
   return (
-    <form action={action} className="flex w-full max-w-sm flex-col gap-3">
-      <input
+    <form action={action} className="flex flex-col gap-3">
+      <Input
         name="email"
         type="email"
         placeholder="Email"
+        aria-label="Email"
+        autoComplete="email"
         required
-        className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
       />
-      <input
+      <Input
         name="password"
         type="password"
         placeholder="Password"
+        aria-label="Password"
+        autoComplete="current-password"
         required
-        className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
       />
-      {state?.error && <p className="text-sm text-red-600">{state.error}</p>}
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded bg-foreground px-4 py-2 text-background disabled:opacity-50"
-      >
+      {state?.error && (
+        <p role="alert" className="text-sm text-destructive">
+          {state.error}
+        </p>
+      )}
+      <Button type="submit" size="lg" disabled={pending}>
         {pending ? "Signing in..." : "Sign in"}
-      </button>
+      </Button>
     </form>
   );
 }
