@@ -3,6 +3,7 @@
 ## Skeleton
 
 需要等待数据的页面各有一个自己的 Skeleton
+修改页面布局时，同步更新同一文件Skeleton
 
 ## SubmitButton
 
