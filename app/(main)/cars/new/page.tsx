@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 
 export default function NewCarPage() {
   return (
@@ -20,35 +20,39 @@ export default function NewCarPage() {
           <CardHeader>
             <CardTitle>Car details</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <Label htmlFor="make">Make</Label>
-              <Input id="make" name="make" placeholder="Toyota" required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="model">Model</Label>
-              <Input id="model" name="model" placeholder="Camry" required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="year">Year</Label>
-              <Input
-                id="year"
-                name="year"
-                type="number"
-                inputMode="numeric"
-                placeholder="2020"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="licensePlate">License plate</Label>
-              <Input
-                id="licensePlate"
-                name="licensePlate"
-                placeholder="Optional"
-                className="font-mono"
-              />
-            </div>
+          <CardContent>
+            <FieldGroup>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field>
+                  <FieldLabel htmlFor="make">Make</FieldLabel>
+                  <Input id="make" name="make" placeholder="Toyota" required />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="model">Model</FieldLabel>
+                  <Input id="model" name="model" placeholder="Camry" required />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="year">Year</FieldLabel>
+                  <Input
+                    id="year"
+                    name="year"
+                    type="number"
+                    inputMode="numeric"
+                    placeholder="2020"
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="licensePlate">License plate</FieldLabel>
+                  <Input
+                    id="licensePlate"
+                    name="licensePlate"
+                    placeholder="Optional"
+                    className="font-mono"
+                  />
+                </Field>
+              </div>
+            </FieldGroup>
           </CardContent>
           <CardFooter className="justify-end gap-2">
             <Link href="/cars" className={buttonVariants({ variant: "ghost" })}>

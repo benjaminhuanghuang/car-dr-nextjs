@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoading } from "@/components/page-loading";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Wrench } from "lucide-react";
@@ -16,12 +17,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 p-6">
-      <Suspense fallback={<p className="text-muted-foreground">Loading car...</p>}>
+      <Suspense fallback={<PageLoading label="Loading car..." />}>
         <CarDetail paramsPromise={props.params} />
       </Suspense>
     </div>
@@ -72,35 +73,49 @@ async function CarDetail({
           <CardHeader>
             <CardTitle>Car details</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <Label htmlFor="make">Make</Label>
-              <Input id="make" name="make" defaultValue={car.make} required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="model">Model</Label>
-              <Input id="model" name="model" defaultValue={car.model} required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="year">Year</Label>
-              <Input
-                id="year"
-                name="year"
-                type="number"
-                inputMode="numeric"
-                defaultValue={car.year}
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="licensePlate">License plate</Label>
-              <Input
-                id="licensePlate"
-                name="licensePlate"
-                defaultValue={car.licensePlate ?? ""}
-                className="font-mono"
-              />
-            </div>
+          <CardContent>
+            <FieldGroup>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field>
+                  <FieldLabel htmlFor="make">Make</FieldLabel>
+                  <Input
+                    id="make"
+                    name="make"
+                    defaultValue={car.make}
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="model">Model</FieldLabel>
+                  <Input
+                    id="model"
+                    name="model"
+                    defaultValue={car.model}
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="year">Year</FieldLabel>
+                  <Input
+                    id="year"
+                    name="year"
+                    type="number"
+                    inputMode="numeric"
+                    defaultValue={car.year}
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="licensePlate">License plate</FieldLabel>
+                  <Input
+                    id="licensePlate"
+                    name="licensePlate"
+                    defaultValue={car.licensePlate ?? ""}
+                    className="font-mono"
+                  />
+                </Field>
+              </div>
+            </FieldGroup>
           </CardContent>
           <CardFooter className="justify-end">
             <Button type="submit">Save changes</Button>

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Trash2 } from "lucide-react";
+import { ArrowLeft, Trash2, Wrench } from "lucide-react";
 import { getCarById, getMaintenanceForCar } from "@/lib/queries";
 import {
   createMaintenanceRecord,
@@ -16,8 +16,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { PageLoading } from "@/components/page-loading";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
   Table,
   TableBody,
@@ -32,9 +40,7 @@ export default function MaintenancePage(
 ) {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6">
-      <Suspense
-        fallback={<p className="text-muted-foreground">Loading history...</p>}
-      >
+      <Suspense fallback={<PageLoading label="Loading history..." />}>
         <MaintenanceContent paramsPromise={props.params} />
       </Suspense>
     </div>
@@ -81,9 +87,17 @@ async function MaintenanceContent({
         </CardHeader>
         <CardContent>
           {records.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted-foreground">
-              No maintenance records yet.
-            </p>
+            <Empty>
+              <EmptyHeader>
+                <EmptyMedia variant="icon">
+                  <Wrench />
+                </EmptyMedia>
+                <EmptyTitle>No maintenance records yet</EmptyTitle>
+                <EmptyDescription>
+                  Add the first service below to start this car&apos;s history.
+                </EmptyDescription>
+              </EmptyHeader>
+            </Empty>
           ) : (
             <Table>
               <TableHeader>
@@ -149,42 +163,51 @@ async function MaintenanceContent({
           <CardHeader>
             <CardTitle>Add a record</CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4 sm:grid-cols-2">
-            <div className="grid gap-2">
-              <Label htmlFor="serviceDate">Service date</Label>
-              <Input id="serviceDate" name="serviceDate" type="date" required />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="description">Description</Label>
-              <Input
-                id="description"
-                name="description"
-                placeholder="Oil change"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="mileage">Mileage</Label>
-              <Input
-                id="mileage"
-                name="mileage"
-                type="number"
-                inputMode="numeric"
-                min={0}
-                placeholder="Optional"
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="cost">Cost ($)</Label>
-              <Input
-                id="cost"
-                name="cost"
-                type="number"
-                inputMode="numeric"
-                min={0}
-                placeholder="Optional"
-              />
-            </div>
+          <CardContent>
+            <FieldGroup>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field>
+                  <FieldLabel htmlFor="serviceDate">Service date</FieldLabel>
+                  <Input
+                    id="serviceDate"
+                    name="serviceDate"
+                    type="date"
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="description">Description</FieldLabel>
+                  <Input
+                    id="description"
+                    name="description"
+                    placeholder="Oil change"
+                    required
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="mileage">Mileage</FieldLabel>
+                  <Input
+                    id="mileage"
+                    name="mileage"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    placeholder="Optional"
+                  />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="cost">Cost ($)</FieldLabel>
+                  <Input
+                    id="cost"
+                    name="cost"
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    placeholder="Optional"
+                  />
+                </Field>
+              </div>
+            </FieldGroup>
           </CardContent>
           <CardFooter className="justify-end">
             <Button type="submit">Add record</Button>
