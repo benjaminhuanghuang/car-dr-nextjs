@@ -6,10 +6,9 @@ import { ThemeToggle } from "./theme-toggle";
 
 export function Nav() {
   return (
-    <nav className="flex items-center justify-between border-b border-border px-6 py-4">
+    <nav className="flex items-center justify-between surface-brand border-b border-border px-6 py-4">
       <Link href="/" className="flex items-center gap-2">
-        <Image src="/gear-car-black.svg" alt="" width={32} height={34} className="dark:hidden" />
-        <Image src="/gear-car-white.svg" alt="" width={32} height={34} className="hidden dark:block" />
+        <Image src="/gear-car-white.svg" alt="" width={32} height={34} />
         <span className="text-xl font-bold">Car Doctor</span>
       </Link>
       <div className="flex items-center gap-4">

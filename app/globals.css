@@ -56,7 +56,7 @@
   /* Car Doctor — light. Neutrals carry a faint blue tint; one blue for actions. */
   --radius: 0.5rem;
 
-  --background: oklch(0.985 0.003 250);
+  --background: oklch(0.965 0.012 250);
   --foreground: oklch(0.21 0.025 255);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.21 0.025 255);
@@ -65,9 +65,9 @@
 
   --primary: oklch(0.46 0.15 258);
   --primary-foreground: oklch(0.985 0.005 250);
-  --secondary: oklch(0.955 0.006 250);
+  --secondary: oklch(0.94 0.014 250);
   --secondary-foreground: oklch(0.27 0.03 255);
-  --muted: oklch(0.955 0.006 250);
+  --muted: oklch(0.94 0.014 250);
   --muted-foreground: oklch(0.5 0.022 255);
   --accent: oklch(0.95 0.022 255);
   --accent-foreground: oklch(0.38 0.13 258);
@@ -141,6 +141,38 @@
   --sidebar-accent-foreground: oklch(0.86 0.07 252);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.72 0.13 252);
+}
+
+/*
+ * Brand surface (deep blue) used by the top nav. It re-scopes the tokens, so
+ * shadcn components inside (Button, links, ThemeToggle) adapt automatically.
+ */
+.surface-brand {
+  --background: oklch(0.33 0.1 260);
+  --foreground: oklch(0.98 0.008 250);
+  --muted: oklch(0.4 0.09 260);
+  --muted-foreground: oklch(0.84 0.04 250);
+  --accent: oklch(0.4 0.09 260);
+  --accent-foreground: oklch(0.98 0.008 250);
+  --primary: oklch(0.98 0.008 250);
+  --primary-foreground: oklch(0.33 0.1 260);
+  --border: oklch(1 0 0 / 14%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.84 0.06 250);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.dark .surface-brand {
+  --background: oklch(0.25 0.05 258);
+  --foreground: oklch(0.96 0.008 250);
+  --muted: oklch(0.31 0.05 258);
+  --muted-foreground: oklch(0.8 0.035 250);
+  --accent: oklch(0.31 0.05 258);
+  --accent-foreground: oklch(0.96 0.008 250);
+  --primary: oklch(0.96 0.008 250);
+  --primary-foreground: oklch(0.25 0.05 258);
+  --ring: oklch(0.72 0.13 252);
 }
 
 @layer base {
