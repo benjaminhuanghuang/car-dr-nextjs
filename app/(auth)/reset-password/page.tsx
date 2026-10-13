@@ -1,10 +1,22 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ResetPasswordForm } from "./reset-password-form";
 
 export default function ResetPasswordPage() {
   return (
-    <>
-      <h1 className="text-2xl font-semibold">Reset Password</h1>
-      <ResetPasswordForm />
-    </>
+    <Card className="w-full">
+      <CardHeader>
+        <CardTitle className="text-xl font-semibold">Reset Password</CardTitle>
+        <CardDescription>Choose a new password for your account.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ResetPasswordForm />
+      </CardContent>
+    </Card>
   );
 }

@@ -1,19 +1,40 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { getCarById, getMaintenanceForCar } from "@/lib/queries";
 import {
   createMaintenanceRecord,
   deleteMaintenanceRecord,
 } from "@/lib/actions/maintenance";
 import { requireUser } from "@/lib/session";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
 ) {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-4 p-6">
-      <h1 className="text-2xl font-semibold">Maintenance History</h1>
-      <Suspense fallback={<p>Loading history...</p>}>
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6">
+      <Suspense
+        fallback={<p className="text-muted-foreground">Loading history...</p>}
+      >
         <MaintenanceContent paramsPromise={props.params} />
       </Suspense>
     </div>
@@ -39,77 +60,137 @@ async function MaintenanceContent({
 
   return (
     <>
-      {records.length === 0 ? (
-        <p className="text-zinc-500">No maintenance records yet.</p>
-      ) : (
-        <ul className="flex flex-col gap-2">
-          {records.map((record) => {
-            const deleteRecord = deleteMaintenanceRecord.bind(
-              null,
-              carId,
-              record.id,
-            );
-            return (
-              <li
-                key={record.id}
-                className="flex items-center justify-between gap-4 border-b border-zinc-200 py-2 dark:border-zinc-800"
-              >
-                <div>
-                  <p>
-                    {new Date(record.serviceDate).toLocaleDateString()} —{" "}
-                    {record.description}
-                  </p>
-                  <p className="text-sm text-zinc-500">
-                    {record.mileage ? `${record.mileage} mi` : ""}
-                    {record.cost ? ` · $${record.cost}` : ""}
-                  </p>
-                </div>
-                <form action={deleteRecord}>
-                  <button type="submit" className="text-red-600 underline">
-                    Delete
-                  </button>
-                </form>
-              </li>
-            );
+      <div className="flex flex-col gap-2">
+        <Link
+          href={`/cars/${car.id}`}
+          className={buttonVariants({
+            variant: "ghost",
+            size: "sm",
+            className: "-ml-2 w-fit text-muted-foreground",
           })}
-        </ul>
-      )}
-
-      <form
-        action={createRecordForCar}
-        className="flex max-w-sm flex-col gap-3"
-      >
-        <input
-          name="serviceDate"
-          type="date"
-          required
-          className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
-        />
-        <input
-          name="description"
-          placeholder="Description"
-          required
-          className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
-        />
-        <input
-          name="mileage"
-          type="number"
-          placeholder="Mileage"
-          className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
-        />
-        <input
-          name="cost"
-          type="number"
-          placeholder="Cost"
-          className="rounded border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-transparent"
-        />
-        <button
-          type="submit"
-          className="rounded bg-foreground px-4 py-2 text-background"
         >
-          Add record
-        </button>
-      </form>
+          <ArrowLeft data-icon="inline-start" />
+          {car.year} {car.make} {car.model}
+        </Link>
+        <h1 className="text-2xl font-semibold">Maintenance History</h1>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Records</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {records.length === 0 ? (
+            <p className="py-6 text-center text-sm text-muted-foreground">
+              No maintenance records yet.
+            </p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead className="text-right">Mileage</TableHead>
+                  <TableHead className="text-right">Cost</TableHead>
+                  <TableHead className="w-0">
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {records.map((record) => {
+                  const deleteRecord = deleteMaintenanceRecord.bind(
+                    null,
+                    carId,
+                    record.id,
+                  );
+                  return (
+                    <TableRow key={record.id}>
+                      <TableCell className="tabular-nums">
+                        {new Date(record.serviceDate).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell className="whitespace-normal">
+                        {record.description}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums">
+                        {record.mileage != null
+                          ? `${record.mileage.toLocaleString()} mi`
+                          : "—"}
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums">
+                        {record.cost != null
+                          ? `$${record.cost.toLocaleString()}`
+                          : "—"}
+                      </TableCell>
+                      <TableCell>
+                        <form action={deleteRecord}>
+                          <Button
+                            type="submit"
+                            variant="ghost"
+                            size="icon-sm"
+                            aria-label={`Delete record: ${record.description}`}
+                            className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                          >
+                            <Trash2 />
+                          </Button>
+                        </form>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <form action={createRecordForCar} className="contents">
+          <CardHeader>
+            <CardTitle>Add a record</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-2">
+              <Label htmlFor="serviceDate">Service date</Label>
+              <Input id="serviceDate" name="serviceDate" type="date" required />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="description">Description</Label>
+              <Input
+                id="description"
+                name="description"
+                placeholder="Oil change"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="mileage">Mileage</Label>
+              <Input
+                id="mileage"
+                name="mileage"
+                type="number"
+                inputMode="numeric"
+                min={0}
+                placeholder="Optional"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="cost">Cost ($)</Label>
+              <Input
+                id="cost"
+                name="cost"
+                type="number"
+                inputMode="numeric"
+                min={0}
+                placeholder="Optional"
+              />
+            </div>
+          </CardContent>
+          <CardFooter className="justify-end">
+            <Button type="submit">Add record</Button>
+          </CardFooter>
+        </form>
+      </Card>
     </>
   );
 }
