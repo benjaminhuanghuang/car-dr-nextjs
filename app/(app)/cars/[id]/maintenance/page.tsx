@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ArrowLeft,
+  ChartColumn,
   ClipboardPlus,
   History,
   Trash2,
@@ -17,7 +18,9 @@ import { requireUser } from "@/lib/session";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -54,6 +57,29 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { IconTile } from "@/components/icon-tile";
+import { Badge } from "@/components/ui/badge";
+import {
+  MaintenanceCostChart,
+  type MonthlyCost,
+} from "@/components/maintenance-cost-chart";
+
+/** Placeholder until the chart is wired to real records. */
+const SAMPLE_MONTHLY_COSTS: MonthlyCost[] = [
+  { month: "2025-11", cost: 0 },
+  { month: "2025-12", cost: 89 },
+  { month: "2026-01", cost: 0 },
+  { month: "2026-02", cost: 420 },
+  { month: "2026-03", cost: 65 },
+  { month: "2026-04", cost: 0 },
+  { month: "2026-05", cost: 140 },
+  { month: "2026-06", cost: 0 },
+  { month: "2026-07", cost: 75 },
+  { month: "2026-08", cost: 960 },
+  { month: "2026-09", cost: 0 },
+  { month: "2026-10", cost: 55 },
+];
+
+const formatDollars = (value: number) => `$${value.toLocaleString("en-US")}`;
 
 export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
@@ -81,6 +107,9 @@ async function MaintenanceContent({
 
   const records = await getMaintenanceForCar(carId);
   const createRecordForCar = createMaintenanceRecord.bind(null, carId);
+  // TODO: replace with this car's records grouped by month (sum of `cost`).
+  const monthlyCosts = SAMPLE_MONTHLY_COSTS;
+  const totalCost = monthlyCosts.reduce((sum, m) => sum + m.cost, 0);
 
   return (
     <>
@@ -100,6 +129,24 @@ async function MaintenanceContent({
           </Link>
         }
       />
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <IconTile icon={ChartColumn} size="sm" />
+            Spending by month
+          </CardTitle>
+          <CardDescription>
+            {formatDollars(totalCost)} over the last 12 months
+          </CardDescription>
+          <CardAction>
+            <Badge variant="outline">Sample data</Badge>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <MaintenanceCostChart data={monthlyCosts} />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
