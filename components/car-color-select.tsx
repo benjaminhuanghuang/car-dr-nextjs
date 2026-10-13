@@ -1,7 +1,7 @@
 "use client";
 
 import { CAR_COLORS, getCarColor } from "@/lib/car-colors";
-import { CarColorSwatch } from "@/components/car-color-swatch";
+import { CarColorLabel } from "@/components/car-color-label";
 import {
   Select,
   SelectContent,
@@ -26,22 +26,14 @@ export function CarColorSelect({
         <SelectValue placeholder="Optional">
           {(value: string | null) => {
             const color = getCarColor(value);
-            return color ? (
-              <>
-                <CarColorSwatch color={color} />
-                {color.label}
-              </>
-            ) : (
-              "Optional"
-            );
+            return color ? <CarColorLabel color={color} /> : "Optional";
           }}
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
         {CAR_COLORS.map((color) => (
           <SelectItem key={color.value} value={color.value}>
-            <CarColorSwatch color={color} />
-            {color.label}
+            <CarColorLabel color={color} />
           </SelectItem>
         ))}
       </SelectContent>
