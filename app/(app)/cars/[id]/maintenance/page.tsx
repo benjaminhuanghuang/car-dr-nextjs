@@ -34,16 +34,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { PageHeader } from "@/components/page-header";
 
 export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
 ) {
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6">
-      <Suspense fallback={<PageLoading label="Loading history..." />}>
-        <MaintenanceContent paramsPromise={props.params} />
-      </Suspense>
-    </div>
+    <Suspense fallback={<PageLoading label="Loading history..." />}>
+      <MaintenanceContent paramsPromise={props.params} />
+    </Suspense>
   );
 }
 
@@ -66,20 +65,22 @@ async function MaintenanceContent({
 
   return (
     <>
-      <div className="flex flex-col gap-2">
-        <Link
-          href={`/cars/${car.id}`}
-          className={buttonVariants({
-            variant: "ghost",
-            size: "sm",
-            className: "-ml-2 w-fit text-muted-foreground",
-          })}
-        >
-          <ArrowLeft data-icon="inline-start" />
-          {car.year} {car.make} {car.model}
-        </Link>
-        <h1 className="text-2xl font-semibold">Maintenance History</h1>
-      </div>
+      <PageHeader
+        title="Maintenance History"
+        eyebrow={
+          <Link
+            href={`/cars/${car.id}`}
+            className={buttonVariants({
+              variant: "ghost",
+              size: "sm",
+              className: "-ml-2 w-fit text-muted-foreground",
+            })}
+          >
+            <ArrowLeft data-icon="inline-start" />
+            {car.year} {car.make} {car.model}
+          </Link>
+        }
+      />
 
       <Card>
         <CardHeader>

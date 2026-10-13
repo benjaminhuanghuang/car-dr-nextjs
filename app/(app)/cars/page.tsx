@@ -21,21 +21,24 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { PageLoading } from "@/components/page-loading";
+import { PageHeader } from "@/components/page-header";
 
 export default function CarsPage() {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 p-6">
-      <div className="flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold">Your Cars</h1>
-        <Link href="/cars/new" className={buttonVariants()}>
-          <Plus data-icon="inline-start" />
-          Add a car
-        </Link>
-      </div>
+    <>
+      <PageHeader
+        title="Your Cars"
+        actions={
+          <Link href="/cars/new" className={buttonVariants()}>
+            <Plus data-icon="inline-start" />
+            Add a car
+          </Link>
+        }
+      />
       <Suspense fallback={<PageLoading label="Loading cars..." />}>
         <CarsList />
       </Suspense>
-    </div>
+    </>
   );
 }
 
@@ -45,7 +48,7 @@ async function CarsList() {
 
   if (userCars.length === 0) {
     return (
-      <Empty className="border">
+      <Empty className="flex-none border">
         <EmptyHeader>
           <EmptyMedia variant="icon">
             <Car />

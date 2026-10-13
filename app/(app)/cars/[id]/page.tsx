@@ -18,14 +18,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { PageHeader } from "@/components/page-header";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 p-6">
-      <Suspense fallback={<PageLoading label="Loading car..." />}>
-        <CarDetail paramsPromise={props.params} />
-      </Suspense>
-    </div>
+    <Suspense fallback={<PageLoading label="Loading car..." />}>
+      <CarDetail paramsPromise={props.params} />
+    </Suspense>
   );
 }
 
@@ -48,25 +47,25 @@ async function CarDetail({
 
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-semibold">
-            {car.year} {car.make} {car.model}
-          </h1>
-          {car.licensePlate && (
+      <PageHeader
+        title={`${car.year} ${car.make} ${car.model}`}
+        description={
+          car.licensePlate && (
             <Badge variant="outline" className="font-mono">
               {car.licensePlate}
             </Badge>
-          )}
-        </div>
-        <Link
-          href={`/cars/${car.id}/maintenance`}
-          className={buttonVariants({ variant: "outline" })}
-        >
-          <Wrench data-icon="inline-start" />
-          Maintenance history
-        </Link>
-      </div>
+          )
+        }
+        actions={
+          <Link
+            href={`/cars/${car.id}/maintenance`}
+            className={buttonVariants({ variant: "outline" })}
+          >
+            <Wrench data-icon="inline-start" />
+            Maintenance history
+          </Link>
+        }
+      />
 
       <Card>
         <form action={updateCarWithId} className="contents">

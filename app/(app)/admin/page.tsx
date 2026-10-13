@@ -18,15 +18,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { PageHeader } from "@/components/page-header";
 
 export default function AdminPage() {
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6">
-      <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
+    <>
+      <PageHeader title="Admin Dashboard" />
       <Suspense fallback={<PageLoading label="Loading..." />}>
         <AdminContent />
       </Suspense>
-    </div>
+    </>
   );
 }
 
