@@ -32,3 +32,9 @@ shadcn — CLI 本身，被装进 dependencies（CLI 默认行为，不是我手
 
 - Modify app/globals.css
 - Add components.json — shadcn CLI 配置
+
+Add component
+
+```sh
+npx shadcn add button input card badge table
+```
