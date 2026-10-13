@@ -37,6 +37,9 @@ Add component
 
 ```sh
 npx shadcn@latest add label button input card badge table
-
+npx shadcn@latest add field empty spinner
 npx shadcn@latest add skeleton sonner alert-dialog alert dropdown-menu separator select textarea
+
+npm install sonner
+npx shadcn@latest add sonner 
 ```
