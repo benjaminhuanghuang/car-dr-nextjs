@@ -26,6 +26,8 @@ Every color comes from a token, so light and dark mode work without `dark:` clas
 - One primary action per area; other buttons use `outline`, `ghost` or `secondary`.
 - Status colors mean status only (green OK, amber due soon, red overdue/error), never decoration.
 - Never use raw Tailwind palette colors (`zinc-*`, `red-600`, …) or `dark:` overrides in pages.
+- Exception: a car's paint color is data, not theme. It comes from `lib/car-colors.ts` (`swatch`) and is shown with `CarColorSwatch` or as the left stripe on car cards; it doesn't change between light and dark mode.
+- `.surface-brand` (in `globals.css`) re-scopes the tokens to the deep-blue brand surface used by the nav; components inside adapt automatically.
 - New tokens need light and dark values in `globals.css` and a `--color-*` entry in `@theme inline`; check text contrast ≥ 4.5:1.
 
 ## Typography

@@ -26,6 +26,7 @@ export const cars = pgTable("cars", {
   model: varchar("model", { length: 100 }).notNull(),
   year: integer("year").notNull(),
   licensePlate: varchar("license_plate", { length: 20 }),
+  color: varchar("color", { length: 20 }),
 });
 
 export const maintenanceRecords = pgTable("maintenance_records", {
