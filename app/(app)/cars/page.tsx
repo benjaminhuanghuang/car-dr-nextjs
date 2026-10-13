@@ -20,7 +20,7 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { PageLoading } from "@/components/page-loading";
+import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader } from "@/components/page-header";
 import { CarColorLabel } from "@/components/car-color-label";
 import { getCarColor } from "@/lib/car-colors";
@@ -37,7 +37,7 @@ export default function CarsPage() {
           </Link>
         }
       />
-      <Suspense fallback={<PageLoading label="Loading cars..." />}>
+      <Suspense fallback={<CarsListSkeleton />}>
         <CarsList />
       </Suspense>
     </>
@@ -114,6 +114,28 @@ async function CarsList() {
           </li>
         );
       })}
+    </ul>
+  );
+}
+
+/** Same shape as the car cards, so the list doesn't jump when it loads. */
+function CarsListSkeleton() {
+  return (
+    <ul
+      className="flex flex-col gap-3"
+      aria-busy="true"
+      aria-label="Loading cars"
+    >
+      {[0, 1, 2].map((i) => (
+        <li key={i}>
+          <Card>
+            <CardHeader>
+              <Skeleton className="h-5 w-48" />
+              <Skeleton className="h-4 w-28" />
+            </CardHeader>
+          </Card>
+        </li>
+      ))}
     </ul>
   );
 }

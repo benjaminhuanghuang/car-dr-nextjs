@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { PageLoading } from "@/components/page-loading";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getAllUsersWithCarCounts, getAnalyticsSummary } from "@/lib/queries";
 import { requireAdmin } from "@/lib/session";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +27,7 @@ export default function AdminPage() {
   return (
     <>
       <PageHeader title="Admin Dashboard" />
-      <Suspense fallback={<PageLoading label="Loading..." />}>
+      <Suspense fallback={<AdminSkeleton />}>
         <AdminContent />
       </Suspense>
     </>
@@ -103,5 +103,40 @@ async function AdminContent() {
         </CardContent>
       </Card>
     </>
+  );
+}
+
+/** Mirrors the page: three stat cards and the users table. */
+function AdminSkeleton() {
+  return (
+    <div
+      className="flex flex-col gap-6"
+      aria-busy="true"
+      aria-label="Loading dashboard"
+    >
+      <div className="grid gap-4 sm:grid-cols-3">
+        {[0, 1, 2].map((i) => (
+          <Card key={i}>
+            <CardHeader>
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-9 w-12" />
+              <CardAction>
+                <Skeleton className="size-9 rounded-lg" />
+              </CardAction>
+            </CardHeader>
+          </Card>
+        ))}
+      </div>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-7 w-24" />
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          {[0, 1, 2, 3].map((i) => (
+            <Skeleton key={i} className="h-8 w-full" />
+          ))}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

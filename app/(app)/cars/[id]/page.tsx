@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { PageLoading } from "@/components/page-loading";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Car, Trash2, Wrench } from "lucide-react";
@@ -38,7 +38,7 @@ import { IconTile } from "@/components/icon-tile";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
-    <Suspense fallback={<PageLoading label="Loading car..." />}>
+    <Suspense fallback={<CarDetailSkeleton />}>
       <CarDetail paramsPromise={props.params} />
     </Suspense>
   );
@@ -198,5 +198,45 @@ async function CarDetail({
         </CardFooter>
       </Card>
     </>
+  );
+}
+
+/** Mirrors the page: header, the car details form, and the delete card. */
+function CarDetailSkeleton() {
+  return (
+    <div
+      className="flex flex-col gap-6"
+      aria-busy="true"
+      aria-label="Loading car"
+    >
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-8 w-44 rounded-lg" />
+      </div>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-7 w-36" />
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex flex-col gap-2">
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-8 w-full rounded-lg" />
+              </div>
+            ))}
+          </div>
+        </CardContent>
+        <CardFooter className="justify-end">
+          <Skeleton className="h-8 w-28 rounded-lg" />
+        </CardFooter>
+      </Card>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-7 w-40" />
+          <Skeleton className="h-4 w-72" />
+        </CardHeader>
+      </Card>
+    </div>
   );
 }

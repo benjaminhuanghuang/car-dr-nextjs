@@ -33,7 +33,7 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
-import { PageLoading } from "@/components/page-loading";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import {
   Table,
@@ -85,7 +85,7 @@ export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
 ) {
   return (
-    <Suspense fallback={<PageLoading label="Loading history..." />}>
+    <Suspense fallback={<MaintenanceSkeleton />}>
       <MaintenanceContent paramsPromise={props.params} />
     </Suspense>
   );
@@ -323,5 +323,40 @@ async function MaintenanceContent({
         </ActionForm>
       </Card>
     </>
+  );
+}
+
+/** Mirrors the page: back link + title, the spending chart, and the records. */
+function MaintenanceSkeleton() {
+  return (
+    <div
+      className="flex flex-col gap-6"
+      aria-busy="true"
+      aria-label="Loading maintenance history"
+    >
+      <div className="flex flex-col gap-2">
+        <Skeleton className="h-7 w-40" />
+        <Skeleton className="h-8 w-64" />
+      </div>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-7 w-44" />
+          <Skeleton className="h-4 w-56" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-56 w-full" />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-7 w-28" />
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          {[0, 1, 2].map((i) => (
+            <Skeleton key={i} className="h-8 w-full" />
+          ))}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

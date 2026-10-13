@@ -55,7 +55,7 @@ Every color comes from a token, so light and dark mode work without `dark:` clas
 | Submitting | `ActionForm` (toast, optional `redirectTo`) + `SubmitButton` (spinner while pending) |
 | Destructive action | `AlertDialog` confirmation; confirm with `SubmitButton variant="destructive"` |
 | Nothing to show | `Empty` with an icon, one sentence, and the action that fills it |
-| Loading | `PageLoading` as the Suspense fallback |
+| Loading | A `Skeleton` fallback shaped like the final content (same Cards, grid and row count), defined next to the page as `XxxSkeleton`; mark it `aria-busy` with an `aria-label` |
 | Card title / stat icon | `IconTile` (tinted square: `tone="primary"`, or `"destructive"` for danger zones); `size="sm"` beside a `CardTitle`, default size in a stat card's `CardAction` |
 | Empty state icon | `EmptyMedia variant="icon"` (already primary-tinted) |
 | Logo | `<Logo className="w-8" />` (inline SVG drawn in `currentColor`; set its color with a `text-*` class, never add colored logo files) |
