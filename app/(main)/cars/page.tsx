@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { ChevronRight, Plus } from "lucide-react";
+import { Car, ChevronRight, Plus } from "lucide-react";
 import { getCarsForUser } from "@/lib/queries";
 import { requireUser } from "@/lib/session";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
+import { PageLoading } from "@/components/page-loading";
 
 export default function CarsPage() {
   return (
@@ -23,7 +32,7 @@ export default function CarsPage() {
           Add a car
         </Link>
       </div>
-      <Suspense fallback={<p className="text-muted-foreground">Loading cars...</p>}>
+      <Suspense fallback={<PageLoading label="Loading cars..." />}>
         <CarsList />
       </Suspense>
     </div>
@@ -36,18 +45,23 @@ async function CarsList() {
 
   if (userCars.length === 0) {
     return (
-      <Card className="items-center py-10 text-center">
-        <CardHeader className="w-full">
-          <CardTitle>No cars yet</CardTitle>
-          <CardDescription>
+      <Empty className="border">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <Car />
+          </EmptyMedia>
+          <EmptyTitle>No cars yet</EmptyTitle>
+          <EmptyDescription>
             Add your first car to start tracking its maintenance.
-          </CardDescription>
-        </CardHeader>
-        <Link href="/cars/new" className={buttonVariants({ variant: "outline" })}>
-          <Plus data-icon="inline-start" />
-          Add a car
-        </Link>
-      </Card>
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Link href="/cars/new" className={buttonVariants()}>
+            <Plus data-icon="inline-start" />
+            Add a car
+          </Link>
+        </EmptyContent>
+      </Empty>
     );
   }
 

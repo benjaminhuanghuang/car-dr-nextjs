@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { PageLoading } from "@/components/page-loading";
 import { getAllUsersWithCarCounts, getAnalyticsSummary } from "@/lib/queries";
 import { requireAdmin } from "@/lib/session";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +23,7 @@ export default function AdminPage() {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-6 p-6">
       <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-      <Suspense fallback={<p className="text-muted-foreground">Loading...</p>}>
+      <Suspense fallback={<PageLoading label="Loading..." />}>
         <AdminContent />
       </Suspense>
     </div>
