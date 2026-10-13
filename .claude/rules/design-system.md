@@ -46,6 +46,7 @@ Every color comes from a token, so light and dark mode work without `dark:` clas
 
 - Signed-in pages go in `app/(app)/`; the layout supplies the `max-w-3xl p-6 gap-6` container, so pages don't add their own.
 - Every app page starts with `<PageHeader title=… />` (optional `eyebrow`, `description`, `actions`).
+- When you change a page's layout (add/remove/reorder cards, fields or sections, change sizes or columns, or move content in/out of `<Suspense>`), update the `XxxSkeleton` in the same file to match.
 
 ## Patterns
 
