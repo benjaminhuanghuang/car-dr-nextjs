@@ -32,9 +32,9 @@ Every color comes from a token, so light and dark mode work without `dark:` clas
 
 ## Typography
 
-- Geist Sans for UI text; Geist Mono (`font-mono`) for license plates and VINs.
+- Overpass (`font-sans`) for all UI text; Overpass Mono (`font-mono`) for license plates and VINs. Loaded with `next/font/google` in `app/layout.tsx`.
 - Compared numbers (mileage, cost, counts): `tabular-nums`, right-aligned in tables, `toLocaleString()`.
-- Page title via `PageHeader` (`text-2xl font-semibold`); card titles via `CardTitle`; body `text-sm`; secondary `text-sm text-muted-foreground`.
+- Page title via `PageHeader` (`text-2xl font-bold`); card titles via `CardTitle`; body `text-sm`; secondary `text-sm text-muted-foreground`.
 - Sentence case. Buttons name the action ("Save changes", "Delete car"); the toast echoes it ("Changes saved", "Car deleted").
 
 ## Shape and spacing
