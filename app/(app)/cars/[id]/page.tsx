@@ -1,46 +1,47 @@
 import { Suspense } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Car, Trash2, Wrench } from "lucide-react";
-import { getCarById } from "@/lib/queries";
-import { updateCar, deleteCar } from "@/lib/actions/cars";
+import {
+  CalendarClock,
+  Car,
+  Pencil,
+  TriangleAlert,
+  Wrench,
+} from "lucide-react";
+import { getCarById, getMaintenanceForCar } from "@/lib/queries";
 import { requireUser } from "@/lib/session";
+import { getCarColor } from "@/lib/car-colors";
+import {
+  type MaintenanceSuggestion,
+  DUE_SOON_MONTHS,
+  getMaintenanceSuggestions,
+  isDueSoon,
+  isOverdue,
+} from "@/lib/maintenance-suggestions";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from "@/components/ui/input-group";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { PageHeader } from "@/components/page-header";
-import { SubmitButton } from "@/components/submit-button";
-import { ActionForm } from "@/components/action-form";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import { CarColorLabel } from "@/components/car-color-label";
-import { CarColorSelect } from "@/components/car-color-select";
-import { getCarColor } from "@/lib/car-colors";
 import { IconTile } from "@/components/icon-tile";
+import { PageHeader } from "@/components/page-header";
+import { cn } from "@/lib/utils";
+
+const dateFormat = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const formatDate = (iso: string) => dateFormat.format(new Date(iso));
+const formatMiles = (miles: number) => `${miles.toLocaleString("en-US")} mi`;
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
@@ -64,174 +65,156 @@ async function CarDetail({
     notFound();
   }
 
-  const updateCarWithId = updateCar.bind(null, carId);
-  const deleteCarWithId = deleteCar.bind(null, carId);
+  const records = await getMaintenanceForCar(carId);
+  const now = new Date();
+  const suggestions = getMaintenanceSuggestions(car, records, now);
   const color = getCarColor(car.color);
+
+  const details: { label: string; value: React.ReactNode }[] = [
+    { label: "Make", value: car.make },
+    { label: "Model", value: car.model },
+    { label: "Year", value: <span className="tabular-nums">{car.year}</span> },
+    {
+      label: "Mileage",
+      value:
+        car.mileage != null ? (
+          <span className="tabular-nums">{formatMiles(car.mileage)}</span>
+        ) : null,
+    },
+    {
+      label: "License plate",
+      value: car.licensePlate ? (
+        <span className="font-mono">{car.licensePlate}</span>
+      ) : null,
+    },
+    { label: "Color", value: color ? <CarColorLabel color={color} /> : null },
+  ];
 
   return (
     <>
       <PageHeader
         title={`${car.year} ${car.make} ${car.model}`}
-        description={
-          (color || car.mileage != null || car.licensePlate) && (
-            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-              {color && <CarColorLabel color={color} />}
-              {car.mileage != null && (
-                <span className="tabular-nums">
-                  {car.mileage.toLocaleString("en-US")} mi
-                </span>
-              )}
-              {car.licensePlate && (
-                <Badge variant="outline" className="font-mono">
-                  {car.licensePlate}
-                </Badge>
-              )}
-            </div>
-          )
-        }
         actions={
-          <Link
-            href={`/cars/${car.id}/maintenance`}
-            className={buttonVariants({ variant: "outline" })}
-          >
-            <Wrench data-icon="inline-start" />
-            Maintenance history
-          </Link>
+          <>
+            <Link
+              href={`/cars/${car.id}/edit`}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              <Pencil data-icon="inline-start" />
+              Edit
+            </Link>
+            <Link
+              href={`/cars/${car.id}/maintenance`}
+              className={buttonVariants({ variant: "outline" })}
+            >
+              <Wrench data-icon="inline-start" />
+              Maintenance history
+            </Link>
+          </>
         }
       />
 
       <Card>
-        <ActionForm
-          action={updateCarWithId}
-          successMessage="Changes saved"
-          className="contents"
-        >
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IconTile icon={Car} size="sm" />
-              Car details
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <FieldGroup>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Field>
-                  <FieldLabel htmlFor="make">Make</FieldLabel>
-                  <Input
-                    id="make"
-                    name="make"
-                    defaultValue={car.make}
-                    required
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="model">Model</FieldLabel>
-                  <Input
-                    id="model"
-                    name="model"
-                    defaultValue={car.model}
-                    required
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="year">Year</FieldLabel>
-                  <Input
-                    id="year"
-                    name="year"
-                    type="number"
-                    inputMode="numeric"
-                    defaultValue={car.year}
-                    required
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="mileage">Mileage</FieldLabel>
-                  <InputGroup>
-                    <InputGroupInput
-                      id="mileage"
-                      name="mileage"
-                      type="number"
-                      inputMode="numeric"
-                      min={0}
-                      step={1}
-                      placeholder="Optional"
-                      defaultValue={car.mileage ?? ""}
-                      className="tabular-nums"
-                    />
-                    <InputGroupAddon align="inline-end">
-                      <InputGroupText>mi</InputGroupText>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="licensePlate">License plate</FieldLabel>
-                  <Input
-                    id="licensePlate"
-                    name="licensePlate"
-                    defaultValue={car.licensePlate ?? ""}
-                    className="font-mono"
-                  />
-                </Field>
-                <Field>
-                  <FieldLabel htmlFor="color">Color</FieldLabel>
-                  <CarColorSelect id="color" defaultValue={car.color} />
-                </Field>
-              </div>
-            </FieldGroup>
-          </CardContent>
-          <CardFooter className="justify-end">
-            <SubmitButton pendingText="Saving...">Save changes</SubmitButton>
-          </CardFooter>
-        </ActionForm>
-      </Card>
-
-      <Card className="ring-destructive/30">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <IconTile icon={Trash2} size="sm" tone="destructive" />
-            Delete this car
+            <IconTile icon={Car} size="sm" />
+            Car details
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
+            {details.map(({ label, value }) => (
+              <div key={label} className="flex flex-col gap-1">
+                <dt className="text-muted-foreground">{label}</dt>
+                <dd>
+                  {value ?? <span className="text-muted-foreground">—</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <IconTile icon={CalendarClock} size="sm" />
+            Upcoming maintenance
           </CardTitle>
           <CardDescription>
-            Permanently removes this car and all of its maintenance records.
-            This can&apos;t be undone.
+            Services due within {DUE_SOON_MONTHS} months are highlighted.
           </CardDescription>
+          <CardAction>
+            <Badge variant="outline">Sample data</Badge>
+          </CardAction>
         </CardHeader>
-        <CardFooter className="justify-end">
-          <AlertDialog>
-            <AlertDialogTrigger
-              render={<Button variant="destructive">Delete car</Button>}
-            />
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Delete {car.year} {car.make} {car.model}?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  This car and all of its maintenance records will be
-                  permanently deleted. This can&apos;t be undone.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <ActionForm
-                action={deleteCarWithId}
-                successMessage="Car deleted"
-                redirectTo="/cars"
-              >
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <SubmitButton variant="destructive" pendingText="Deleting...">
-                    Delete car
-                  </SubmitButton>
-                </AlertDialogFooter>
-              </ActionForm>
-            </AlertDialogContent>
-          </AlertDialog>
-        </CardFooter>
+        <CardContent>
+          <ul className="flex flex-col divide-y">
+            {suggestions.map((suggestion) => (
+              <SuggestionItem
+                key={suggestion.service}
+                suggestion={suggestion}
+                now={now}
+              />
+            ))}
+          </ul>
+        </CardContent>
       </Card>
     </>
   );
 }
 
-/** Mirrors the page: header, the car details form, and the delete card. */
+function SuggestionItem({
+  suggestion,
+  now,
+}: {
+  suggestion: MaintenanceSuggestion;
+  now: Date;
+}) {
+  const { service, lastDate, lastMileage, dueDate, dueMileage } = suggestion;
+  const urgent = isDueSoon(suggestion, now);
+  const overdue = isOverdue(suggestion, now);
+
+  return (
+    <li className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
+        <p className="text-muted-foreground">
+          {lastDate ? (
+            <>
+              Your last {service} was on {formatDate(lastDate)}
+              {lastMileage != null && <> at {formatMiles(lastMileage)}</>}.
+            </>
+          ) : (
+            <>No {service} on record yet.</>
+          )}
+        </p>
+        <p
+          className={cn(
+            "font-medium",
+            urgent ? "text-destructive" : "text-foreground",
+          )}
+        >
+          {urgent && (
+            <TriangleAlert
+              aria-hidden
+              className="mr-1.5 inline size-4 -translate-y-px"
+            />
+          )}
+          {overdue ? "Your" : "Your next"} {service} {overdue ? "was" : "is"}{" "}
+          due {dueMileage != null && <>at {formatMiles(dueMileage)} or </>}
+          by {formatDate(dueDate)}.
+        </p>
+      </div>
+      {urgent && (
+        <Badge variant="destructive" className="shrink-0">
+          {overdue ? "Overdue" : "Due soon"}
+        </Badge>
+      )}
+    </li>
+  );
+}
+
+/** Mirrors the page: header, the read-only details, and the suggestions list. */
 function CarDetailSkeleton() {
   return (
     <div
@@ -241,31 +224,39 @@ function CarDetailSkeleton() {
     >
       <div className="flex flex-wrap items-end justify-between gap-4">
         <Skeleton className="h-8 w-64" />
-        <Skeleton className="h-8 w-44 rounded-lg" />
+        <div className="flex gap-2">
+          <Skeleton className="h-8 w-20 rounded-lg" />
+          <Skeleton className="h-8 w-44 rounded-lg" />
+        </div>
       </div>
       <Card>
         <CardHeader>
           <Skeleton className="h-7 w-36" />
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
             {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex flex-col gap-2">
+              <div key={i} className="flex flex-col gap-1">
                 <Skeleton className="h-4 w-20" />
-                <Skeleton className="h-8 w-full rounded-lg" />
+                <Skeleton className="h-5 w-32" />
               </div>
             ))}
           </div>
         </CardContent>
-        <CardFooter className="justify-end">
-          <Skeleton className="h-8 w-28 rounded-lg" />
-        </CardFooter>
       </Card>
       <Card>
         <CardHeader>
-          <Skeleton className="h-7 w-40" />
-          <Skeleton className="h-4 w-72" />
+          <Skeleton className="h-7 w-48" />
+          <Skeleton className="h-4 w-64" />
         </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="flex flex-col gap-1.5">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-4 w-2/3" />
+            </div>
+          ))}
+        </CardContent>
       </Card>
     </div>
   );
