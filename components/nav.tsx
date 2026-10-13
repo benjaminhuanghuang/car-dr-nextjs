@@ -2,17 +2,22 @@ import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { NavRight } from "./nav-right";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Nav() {
   return (
-    <nav className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+    <nav className="flex items-center justify-between border-b border-border px-6 py-4">
       <Link href="/" className="flex items-center gap-2">
-        <Image src="/gear-car-black.svg" alt="" width={32} height={32} />
+        <Image src="/gear-car-black.svg" alt="" width={32} height={34} className="dark:hidden" />
+        <Image src="/gear-car-white.svg" alt="" width={32} height={34} className="hidden dark:block" />
         <span className="text-xl font-bold">Car Doctor</span>
       </Link>
-      <Suspense fallback={null}>
-        <NavRight />
-      </Suspense>
+      <div className="flex items-center gap-4">
+        <Suspense fallback={null}>
+          <NavRight />
+        </Suspense>
+        <ThemeToggle />
+      </div>
     </nav>
   );
 }

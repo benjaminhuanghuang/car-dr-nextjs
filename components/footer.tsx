@@ -11,10 +11,11 @@ export async function Footer() {
   const year = await getCurrentYear();
 
   return (
-    <footer className="border-t border-zinc-200 px-6 py-8 text-sm text-muted-foreground dark:border-zinc-800">
+    <footer className="border-t border-border px-6 py-8 text-sm text-muted-foreground">
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="flex items-center gap-2">
-          <Image src="/gear-car-black.svg" alt="" width={20} height={20} />
+          <Image src="/gear-car-black.svg" alt="" width={20} height={21} className="dark:hidden" />
+          <Image src="/gear-car-white.svg" alt="" width={20} height={21} className="hidden dark:block" />
           <span className="font-semibold text-foreground">Car Doctor</span>
         </div>
         <p>&copy; {year} Car Doctor. All rights reserved.</p>
