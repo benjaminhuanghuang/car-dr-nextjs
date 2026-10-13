@@ -58,4 +58,4 @@ Every color comes from a token, so light and dark mode work without `dark:` clas
 | Loading | `PageLoading` as the Suspense fallback |
 | Card title / stat icon | `IconTile` (tinted square: `tone="primary"`, or `"destructive"` for danger zones); `size="sm"` beside a `CardTitle`, default size in a stat card's `CardAction` |
 | Empty state icon | `EmptyMedia variant="icon"` (already primary-tinted) |
-| Logo | `<Logo className="w-8" />` (one SVG used as a CSS mask, painted in the current text color; set the color with a `text-*` class, never add colored logo files) |
+| Logo | `<Logo className="w-8" />` (inline SVG drawn in `currentColor`; set its color with a `text-*` class, never add colored logo files) |

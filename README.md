@@ -20,4 +20,4 @@
 
 ## Web URL
 
-<https://car-dr-nextjs-cl01ql9za-benjamin-huangs-projects.vercel.app/>
+<https://car-dr-nextjs.vercel.app/>
