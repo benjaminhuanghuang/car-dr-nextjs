@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/empty";
 import { PageLoading } from "@/components/page-loading";
 import { PageHeader } from "@/components/page-header";
-import { CarColorSwatch } from "@/components/car-color-swatch";
+import { CarColorLabel } from "@/components/car-color-label";
 import { getCarColor } from "@/lib/car-colors";
 
 export default function CarsPage() {
@@ -93,12 +93,7 @@ async function CarsList() {
                     {car.year} {car.make} {car.model}
                   </CardTitle>
                   <CardDescription className="flex flex-wrap items-center gap-3">
-                    {color && (
-                      <span className="flex items-center gap-1.5">
-                        <CarColorSwatch color={color} />
-                        {color.label}
-                      </span>
-                    )}
+                    {color && <CarColorLabel color={color} />}
                     {car.licensePlate ? (
                       <Badge variant="outline" className="font-mono">
                         {car.licensePlate}
