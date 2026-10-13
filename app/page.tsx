@@ -13,6 +13,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "cn";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { ChatWidget } from "@/components/chat/chat-widget";
 
 const miniFeatures = [
   {
@@ -238,6 +239,7 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+      <ChatWidget />
     </>
   );
 }
