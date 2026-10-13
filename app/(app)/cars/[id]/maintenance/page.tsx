@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/table";
 import { PageHeader } from "@/components/page-header";
 import { SubmitButton } from "@/components/submit-button";
+import { ActionForm } from "@/components/action-form";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -175,7 +176,10 @@ async function MaintenanceContent({
                                 will be permanently deleted.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
-                            <form action={deleteRecord}>
+                            <ActionForm
+                              action={deleteRecord}
+                              successMessage="Record deleted"
+                            >
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <SubmitButton
@@ -185,7 +189,7 @@ async function MaintenanceContent({
                                   Delete record
                                 </SubmitButton>
                               </AlertDialogFooter>
-                            </form>
+                            </ActionForm>
                           </AlertDialogContent>
                         </AlertDialog>
                       </TableCell>
@@ -199,7 +203,11 @@ async function MaintenanceContent({
       </Card>
 
       <Card>
-        <form action={createRecordForCar} className="contents">
+        <ActionForm
+          action={createRecordForCar}
+          successMessage="Record added"
+          className="contents"
+        >
           <CardHeader>
             <CardTitle>Add a record</CardTitle>
           </CardHeader>
@@ -252,7 +260,7 @@ async function MaintenanceContent({
           <CardFooter className="justify-end">
             <SubmitButton pendingText="Adding...">Add record</SubmitButton>
           </CardFooter>
-        </form>
+        </ActionForm>
       </Card>
     </>
   );
