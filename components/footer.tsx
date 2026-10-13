@@ -1,4 +1,3 @@
-import { Logo } from "./logo";
 import { cacheLife } from "next/cache";
 
 async function getCurrentYear() {
@@ -13,10 +12,6 @@ export async function Footer() {
   return (
     <footer className="border-t border-border px-6 py-8 text-sm text-muted-foreground">
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <div className="flex items-center gap-2">
-          <Logo className="w-5 text-foreground" />
-          <span className="font-semibold text-foreground">Car Doctor</span>
-        </div>
         <p>&copy; {year} Car Doctor. All rights reserved.</p>
         {/* Filled in at release time by scripts/update_commit_hash.sh */}
         <span className="text-sm text-muted-foreground" id="commit-hash">
