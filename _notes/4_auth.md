@@ -23,7 +23,7 @@ supabase -> project overview -> use the `Copy` dropdown beside project name
 implement a simple email/password authentication using Supabase Auth, admin flag ,and give me a admin account and a normal user account,
 ```
 
-## authUserId
+## Add authUserId field to user table
 
 ```js
 authUserId: uuid("auth_user_id").unique(),

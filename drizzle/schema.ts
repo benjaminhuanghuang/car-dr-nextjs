@@ -32,7 +32,7 @@ export const maintenanceRecords = pgTable("maintenance_records", {
   id: serial("id").primaryKey(),
   carId: integer("car_id")
     .notNull()
-    .references(() => cars.id),
+    .references(() => cars.id, { onDelete: "cascade" }),
   serviceDate: timestamp("service_date").notNull(),
   description: text("description").notNull(),
   mileage: integer("mileage"),
