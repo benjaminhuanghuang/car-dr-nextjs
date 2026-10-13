@@ -1,6 +1,8 @@
 # UX
 
-##
+## Skeleton
+
+需要等待数据的页面各有一个自己的 Skeleton
 
 ## SubmitButton
 
