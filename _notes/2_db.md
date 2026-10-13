@@ -33,3 +33,13 @@ Install Agent Skills (optional)
 ```sh
 npx skills add supabase/agent-skills
 ```
+
+## foreign key constraint
+
+maintenanceRecords.carId
+
+```ts
+carId: integer("car_id")
+    .notNull()
+    .references(() => cars.id, { onDelete: "cascade" }),
+```
