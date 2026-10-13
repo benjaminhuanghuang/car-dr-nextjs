@@ -22,6 +22,7 @@ Supabase Auth · PostgreSQL (Supabase) via Drizzle · deployed on Vercel.
 - `proxy.ts`: route protection (Next 16's replacement for middleware)
 - `lib/actions/`: server actions · `lib/queries.ts`: reads · `lib/session.ts`: `getCurrentUser` / `requireUser` / `requireAdmin`
 - `drizzle/schema.ts`: database schema · `lib/db.ts`: Drizzle client
+- `lib/maintenance-suggestions.ts`: `MaintenanceSuggestion` type, `getMaintenanceSuggestions(car, records, now)` (returns sample data for now; to be generated from maintenance history and mileage) and `isDueSoon` / `isOverdue` (due within `DUE_SOON_MONTHS` = highlighted in red). Shown on `/cars/[id]`; editing lives at `/cars/[id]/edit`
 - `components/ui/`: shadcn components · `components/`: app components (`PageHeader`, `ActionForm`, `SubmitButton`, …)
 - `components/ai-elements/`: AI Elements (Vercel's shadcn-based chat components; patched for Base UI, see comments) · `components/chat/`: floating AI chat (`ChatWidget`, rendered on the home and car pages only); replies are mocked in `lib/chat/mock-reply.ts` until the AI SDK is wired up
 
