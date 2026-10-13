@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { cars } from "@/drizzle/schema";
 import { requireUser } from "@/lib/session";
+import { parseCarColor } from "@/lib/car-colors";
 
 export async function createCar(formData: FormData) {
   const user = await requireUser();
@@ -15,6 +16,7 @@ export async function createCar(formData: FormData) {
     model: String(formData.get("model")),
     year: Number(formData.get("year")),
     licensePlate: String(formData.get("licensePlate") ?? ""),
+    color: parseCarColor(formData.get("color")),
   });
 
   revalidatePath("/cars");
@@ -30,6 +32,7 @@ export async function updateCar(carId: number, formData: FormData) {
       model: String(formData.get("model")),
       year: Number(formData.get("year")),
       licensePlate: String(formData.get("licensePlate") ?? ""),
+      color: parseCarColor(formData.get("color")),
     })
     .where(and(eq(cars.id, carId), eq(cars.userId, user.id)));
 

@@ -31,6 +31,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { CarColorSwatch } from "@/components/car-color-swatch";
+import { CarColorSelect } from "@/components/car-color-select";
+import { getCarColor } from "@/lib/car-colors";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
@@ -56,16 +59,27 @@ async function CarDetail({
 
   const updateCarWithId = updateCar.bind(null, carId);
   const deleteCarWithId = deleteCar.bind(null, carId);
+  const color = getCarColor(car.color);
 
   return (
     <>
       <PageHeader
         title={`${car.year} ${car.make} ${car.model}`}
         description={
-          car.licensePlate && (
-            <Badge variant="outline" className="font-mono">
-              {car.licensePlate}
-            </Badge>
+          (color || car.licensePlate) && (
+            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              {color && (
+                <span className="flex items-center gap-1.5">
+                  <CarColorSwatch color={color} />
+                  {color.label}
+                </span>
+              )}
+              {car.licensePlate && (
+                <Badge variant="outline" className="font-mono">
+                  {car.licensePlate}
+                </Badge>
+              )}
+            </div>
           )
         }
         actions={
@@ -128,6 +142,10 @@ async function CarDetail({
                     defaultValue={car.licensePlate ?? ""}
                     className="font-mono"
                   />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="color">Color</FieldLabel>
+                  <CarColorSelect id="color" defaultValue={car.color} />
                 </Field>
               </div>
             </FieldGroup>

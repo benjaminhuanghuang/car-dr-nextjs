@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { PageHeader } from "@/components/page-header";
+import { CarColorSelect } from "@/components/car-color-select";
 
 export default function NewCarPage() {
   return (
@@ -58,6 +59,10 @@ export default function NewCarPage() {
                     placeholder="Optional"
                     className="font-mono"
                   />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="color">Color</FieldLabel>
+                  <CarColorSelect id="color" />
                 </Field>
               </div>
             </FieldGroup>
