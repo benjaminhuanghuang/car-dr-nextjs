@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createCar } from "@/lib/actions/cars";
 import { buttonVariants } from "@/components/ui/button";
 import { SubmitButton } from "@/components/submit-button";
+import { ActionForm } from "@/components/action-form";
 import {
   Card,
   CardContent,
@@ -18,7 +19,12 @@ export default function NewCarPage() {
     <>
       <PageHeader title="Add a Car" />
       <Card>
-        <form action={createCar} className="contents">
+        <ActionForm
+          action={createCar}
+          successMessage="Car added"
+          redirectTo="/cars"
+          className="contents"
+        >
           <CardHeader>
             <CardTitle>Car details</CardTitle>
           </CardHeader>
@@ -62,7 +68,7 @@ export default function NewCarPage() {
             </Link>
             <SubmitButton pendingText="Saving...">Save</SubmitButton>
           </CardFooter>
-        </form>
+        </ActionForm>
       </Card>
     </>
   );

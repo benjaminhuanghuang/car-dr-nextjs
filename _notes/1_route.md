@@ -1,4 +1,4 @@
-# route
+# route and pages
 
 ```prompt
 implement home page

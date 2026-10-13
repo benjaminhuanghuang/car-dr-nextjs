@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { PageHeader } from "@/components/page-header";
 import { SubmitButton } from "@/components/submit-button";
+import { ActionForm } from "@/components/action-form";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -79,7 +80,11 @@ async function CarDetail({
       />
 
       <Card>
-        <form action={updateCarWithId} className="contents">
+        <ActionForm
+          action={updateCarWithId}
+          successMessage="Changes saved"
+          className="contents"
+        >
           <CardHeader>
             <CardTitle>Car details</CardTitle>
           </CardHeader>
@@ -130,7 +135,7 @@ async function CarDetail({
           <CardFooter className="justify-end">
             <SubmitButton pendingText="Saving...">Save changes</SubmitButton>
           </CardFooter>
-        </form>
+        </ActionForm>
       </Card>
 
       <Card className="ring-destructive/30">
@@ -156,14 +161,18 @@ async function CarDetail({
                   permanently deleted. This can&apos;t be undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <form action={deleteCarWithId}>
+              <ActionForm
+                action={deleteCarWithId}
+                successMessage="Car deleted"
+                redirectTo="/cars"
+              >
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
                   <SubmitButton variant="destructive" pendingText="Deleting...">
                     Delete car
                   </SubmitButton>
                 </AlertDialogFooter>
-              </form>
+              </ActionForm>
             </AlertDialogContent>
           </AlertDialog>
         </CardFooter>

@@ -1,7 +1,6 @@
 "use server";
 
 import { eq, and } from "drizzle-orm";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { cars } from "@/drizzle/schema";
@@ -19,7 +18,6 @@ export async function createCar(formData: FormData) {
   });
 
   revalidatePath("/cars");
-  redirect("/cars");
 }
 
 export async function updateCar(carId: number, formData: FormData) {
@@ -47,5 +45,4 @@ export async function deleteCar(carId: number) {
     .where(and(eq(cars.id, carId), eq(cars.userId, user.id)));
 
   revalidatePath("/cars");
-  redirect("/cars");
 }
