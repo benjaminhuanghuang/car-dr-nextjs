@@ -150,6 +150,7 @@ export default function Home() {
                   src="/car-maintain.webp"
                   alt="Mechanic performing maintenance on a car"
                   fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                   priority
                 />
