@@ -35,6 +35,17 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PageHeader } from "@/components/page-header";
+import { SubmitButton } from "@/components/submit-button";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function MaintenancePage(
   props: PageProps<"/cars/[id]/maintenance">,
@@ -138,17 +149,45 @@ async function MaintenanceContent({
                           : "—"}
                       </TableCell>
                       <TableCell>
-                        <form action={deleteRecord}>
-                          <Button
-                            type="submit"
-                            variant="ghost"
-                            size="icon-sm"
-                            aria-label={`Delete record: ${record.description}`}
-                            className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-                          >
-                            <Trash2 />
-                          </Button>
-                        </form>
+                        <AlertDialog>
+                          <AlertDialogTrigger
+                            render={
+                              <Button
+                                variant="ghost"
+                                size="icon-sm"
+                                aria-label={`Delete record: ${record.description}`}
+                                className="text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+                              >
+                                <Trash2 />
+                              </Button>
+                            }
+                          />
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Delete this record?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                &ldquo;{record.description}&rdquo; on{" "}
+                                {new Date(
+                                  record.serviceDate,
+                                ).toLocaleDateString()}{" "}
+                                will be permanently deleted.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <form action={deleteRecord}>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <SubmitButton
+                                  variant="destructive"
+                                  pendingText="Deleting..."
+                                >
+                                  Delete record
+                                </SubmitButton>
+                              </AlertDialogFooter>
+                            </form>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </TableCell>
                     </TableRow>
                   );
@@ -211,7 +250,7 @@ async function MaintenanceContent({
             </FieldGroup>
           </CardContent>
           <CardFooter className="justify-end">
-            <Button type="submit">Add record</Button>
+            <SubmitButton pendingText="Adding...">Add record</SubmitButton>
           </CardFooter>
         </form>
       </Card>

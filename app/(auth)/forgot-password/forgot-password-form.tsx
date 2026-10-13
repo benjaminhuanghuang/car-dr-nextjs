@@ -2,7 +2,6 @@
 
 import { useActionState } from "react";
 import { forgotPassword } from "@/lib/actions/auth";
-import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
@@ -11,10 +10,10 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+import { SubmitButton } from "@/components/submit-button";
 
 export function ForgotPasswordForm() {
-  const [state, action, pending] = useActionState(forgotPassword, undefined);
+  const [state, action] = useActionState(forgotPassword, undefined);
 
   return (
     <form action={action}>
@@ -34,10 +33,9 @@ export function ForgotPasswordForm() {
           <FieldDescription role="status">{state.message}</FieldDescription>
         )}
         <Field>
-          <Button type="submit" size="lg" disabled={pending}>
-            {pending && <Spinner data-icon="inline-start" />}
-            {pending ? "Sending..." : "Send reset link"}
-          </Button>
+          <SubmitButton size="lg" pendingText="Sending...">
+            Send reset link
+          </SubmitButton>
         </Field>
       </FieldGroup>
     </form>

@@ -2,7 +2,6 @@
 
 import { useActionState } from "react";
 import { resetPassword } from "@/lib/actions/auth";
-import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
@@ -11,10 +10,10 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
+import { SubmitButton } from "@/components/submit-button";
 
 export function ResetPasswordForm() {
-  const [state, action, pending] = useActionState(resetPassword, undefined);
+  const [state, action] = useActionState(resetPassword, undefined);
 
   return (
     <form action={action}>
@@ -33,10 +32,9 @@ export function ResetPasswordForm() {
         </Field>
         {state?.error && <FieldError>{state.error}</FieldError>}
         <Field>
-          <Button type="submit" size="lg" disabled={pending}>
-            {pending && <Spinner data-icon="inline-start" />}
-            {pending ? "Saving..." : "Save new password"}
-          </Button>
+          <SubmitButton size="lg" pendingText="Saving...">
+            Save new password
+          </SubmitButton>
         </Field>
       </FieldGroup>
     </form>
