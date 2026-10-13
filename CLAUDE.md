@@ -23,6 +23,7 @@ Supabase Auth · PostgreSQL (Supabase) via Drizzle · deployed on Vercel.
 - `lib/actions/`: server actions · `lib/queries.ts`: reads · `lib/session.ts`: `getCurrentUser` / `requireUser` / `requireAdmin`
 - `drizzle/schema.ts`: database schema · `lib/db.ts`: Drizzle client
 - `components/ui/`: shadcn components · `components/`: app components (`PageHeader`, `ActionForm`, `SubmitButton`, …)
+- `components/ai-elements/`: AI Elements (Vercel's shadcn-based chat components; patched for Base UI, see comments) · `components/chat/`: floating AI chat (`ChatWidget`, rendered on the home and car pages only); replies are mocked in `lib/chat/mock-reply.ts` until the AI SDK is wired up
 
 ## Conventions
 
