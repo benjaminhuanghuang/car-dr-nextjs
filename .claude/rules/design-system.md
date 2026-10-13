@@ -56,3 +56,5 @@ Every color comes from a token, so light and dark mode work without `dark:` clas
 | Destructive action | `AlertDialog` confirmation; confirm with `SubmitButton variant="destructive"` |
 | Nothing to show | `Empty` with an icon, one sentence, and the action that fills it |
 | Loading | `PageLoading` as the Suspense fallback |
+| Card title / stat icon | `IconTile` (tinted square: `tone="primary"`, or `"destructive"` for danger zones); `size="sm"` beside a `CardTitle`, default size in a stat card's `CardAction` |
+| Empty state icon | `EmptyMedia variant="icon"` (already primary-tinted) |

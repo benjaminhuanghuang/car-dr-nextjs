@@ -4,6 +4,8 @@ import { requireUser } from "@/lib/session";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/components/page-header";
+import { IconTile } from "@/components/icon-tile";
+import { UserRound } from "lucide-react";
 
 export default function ProfilePage() {
   return (
@@ -22,7 +24,10 @@ async function ProfileDetails() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Account</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          <IconTile icon={UserRound} size="sm" />
+          Account
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <dl className="grid grid-cols-[8rem_1fr] items-center gap-x-4 gap-y-3">

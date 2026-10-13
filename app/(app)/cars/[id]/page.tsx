@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { PageLoading } from "@/components/page-loading";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Wrench } from "lucide-react";
+import { Car, Trash2, Wrench } from "lucide-react";
 import { getCarById } from "@/lib/queries";
 import { updateCar, deleteCar } from "@/lib/actions/cars";
 import { requireUser } from "@/lib/session";
@@ -34,6 +34,7 @@ import {
 import { CarColorLabel } from "@/components/car-color-label";
 import { CarColorSelect } from "@/components/car-color-select";
 import { getCarColor } from "@/lib/car-colors";
+import { IconTile } from "@/components/icon-tile";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (
@@ -95,7 +96,10 @@ async function CarDetail({
           className="contents"
         >
           <CardHeader>
-            <CardTitle>Car details</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <IconTile icon={Car} size="sm" />
+              Car details
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <FieldGroup>
@@ -153,7 +157,10 @@ async function CarDetail({
 
       <Card className="ring-destructive/30">
         <CardHeader>
-          <CardTitle>Delete this car</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <IconTile icon={Trash2} size="sm" tone="destructive" />
+            Delete this car
+          </CardTitle>
           <CardDescription>
             Permanently removes this car and all of its maintenance records.
             This can&apos;t be undone.

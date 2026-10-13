@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/session";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -19,6 +20,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PageHeader } from "@/components/page-header";
+import { IconTile } from "@/components/icon-tile";
+import { Car, Users, Wrench } from "lucide-react";
 
 export default function AdminPage() {
   return (
@@ -38,9 +41,9 @@ async function AdminContent() {
     await Promise.all([getAnalyticsSummary(), getAllUsersWithCarCounts()]);
 
   const stats = [
-    { label: "Users", value: userCount },
-    { label: "Cars", value: carCount },
-    { label: "Maintenance records", value: maintenanceCount },
+    { label: "Users", value: userCount, icon: Users },
+    { label: "Cars", value: carCount, icon: Car },
+    { label: "Maintenance records", value: maintenanceCount, icon: Wrench },
   ];
 
   return (
@@ -53,6 +56,9 @@ async function AdminContent() {
               <CardTitle className="text-3xl font-semibold tabular-nums">
                 {stat.value.toLocaleString()}
               </CardTitle>
+              <CardAction>
+                <IconTile icon={stat.icon} />
+              </CardAction>
             </CardHeader>
           </Card>
         ))}
@@ -60,7 +66,10 @@ async function AdminContent() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Users</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <IconTile icon={Users} size="sm" />
+            Users
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>

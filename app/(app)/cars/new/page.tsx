@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { PageHeader } from "@/components/page-header";
 import { CarColorSelect } from "@/components/car-color-select";
+import { IconTile } from "@/components/icon-tile";
+import { Car } from "lucide-react";
 
 export default function NewCarPage() {
   return (
@@ -27,7 +29,10 @@ export default function NewCarPage() {
           className="contents"
         >
           <CardHeader>
-            <CardTitle>Car details</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <IconTile icon={Car} size="sm" />
+              Car details
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <FieldGroup>
