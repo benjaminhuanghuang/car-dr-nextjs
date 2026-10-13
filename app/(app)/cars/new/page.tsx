@@ -11,6 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { PageHeader } from "@/components/page-header";
 import { CarColorSelect } from "@/components/car-color-select";
@@ -55,6 +61,24 @@ export default function NewCarPage() {
                     placeholder="2020"
                     required
                   />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="mileage">Mileage</FieldLabel>
+                  <InputGroup>
+                    <InputGroupInput
+                      id="mileage"
+                      name="mileage"
+                      type="number"
+                      inputMode="numeric"
+                      min={0}
+                      step={1}
+                      placeholder="Optional"
+                      className="tabular-nums"
+                    />
+                    <InputGroupAddon align="inline-end">
+                      <InputGroupText>mi</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="licensePlate">License plate</FieldLabel>

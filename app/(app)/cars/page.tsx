@@ -94,6 +94,11 @@ async function CarsList() {
                   </CardTitle>
                   <CardDescription className="flex flex-wrap items-center gap-3">
                     {color && <CarColorLabel color={color} />}
+                    {car.mileage != null && (
+                      <span className="tabular-nums">
+                        {car.mileage.toLocaleString("en-US")} mi
+                      </span>
+                    )}
                     {car.licensePlate ? (
                       <Badge variant="outline" className="font-mono">
                         {car.licensePlate}

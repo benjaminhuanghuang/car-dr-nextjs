@@ -17,6 +17,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { PageHeader } from "@/components/page-header";
 import { SubmitButton } from "@/components/submit-button";
@@ -67,9 +73,14 @@ async function CarDetail({
       <PageHeader
         title={`${car.year} ${car.make} ${car.model}`}
         description={
-          (color || car.licensePlate) && (
+          (color || car.mileage != null || car.licensePlate) && (
             <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
               {color && <CarColorLabel color={color} />}
+              {car.mileage != null && (
+                <span className="tabular-nums">
+                  {car.mileage.toLocaleString("en-US")} mi
+                </span>
+              )}
               {car.licensePlate && (
                 <Badge variant="outline" className="font-mono">
                   {car.licensePlate}
@@ -132,6 +143,25 @@ async function CarDetail({
                     defaultValue={car.year}
                     required
                   />
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="mileage">Mileage</FieldLabel>
+                  <InputGroup>
+                    <InputGroupInput
+                      id="mileage"
+                      name="mileage"
+                      type="number"
+                      inputMode="numeric"
+                      min={0}
+                      step={1}
+                      placeholder="Optional"
+                      defaultValue={car.mileage ?? ""}
+                      className="tabular-nums"
+                    />
+                    <InputGroupAddon align="inline-end">
+                      <InputGroupText>mi</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="licensePlate">License plate</FieldLabel>
@@ -219,7 +249,7 @@ function CarDetailSkeleton() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2">
-            {[0, 1, 2, 3, 4].map((i) => (
+            {[0, 1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="flex flex-col gap-2">
                 <Skeleton className="h-4 w-20" />
                 <Skeleton className="h-8 w-full rounded-lg" />

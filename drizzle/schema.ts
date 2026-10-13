@@ -26,6 +26,8 @@ export const cars = pgTable("cars", {
   model: varchar("model", { length: 100 }).notNull(),
   year: integer("year").notNull(),
   licensePlate: varchar("license_plate", { length: 20 }),
+  /** Current odometer reading, in miles. */
+  mileage: integer("mileage"),
   color: varchar("color", { length: 20 }),
 });
 
