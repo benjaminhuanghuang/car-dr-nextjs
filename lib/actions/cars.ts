@@ -7,6 +7,13 @@ import { cars } from "@/drizzle/schema";
 import { requireUser } from "@/lib/session";
 import { parseCarColor } from "@/lib/car-colors";
 
+/** Odometer in whole miles; empty or invalid input is stored as null. */
+function parseMileage(value: FormDataEntryValue | null) {
+  if (typeof value !== "string" || value.trim() === "") return null;
+  const miles = Number(value);
+  return Number.isInteger(miles) && miles >= 0 ? miles : null;
+}
+
 export async function createCar(formData: FormData) {
   const user = await requireUser();
 
@@ -16,6 +23,7 @@ export async function createCar(formData: FormData) {
     model: String(formData.get("model")),
     year: Number(formData.get("year")),
     licensePlate: String(formData.get("licensePlate") ?? ""),
+    mileage: parseMileage(formData.get("mileage")),
     color: parseCarColor(formData.get("color")),
   });
 
@@ -32,6 +40,7 @@ export async function updateCar(carId: number, formData: FormData) {
       model: String(formData.get("model")),
       year: Number(formData.get("year")),
       licensePlate: String(formData.get("licensePlate") ?? ""),
+      mileage: parseMileage(formData.get("mileage")),
       color: parseCarColor(formData.get("color")),
     })
     .where(and(eq(cars.id, carId), eq(cars.userId, user.id)));
