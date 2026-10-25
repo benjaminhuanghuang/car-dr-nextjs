@@ -24,7 +24,7 @@ Supabase Auth · PostgreSQL (Supabase) via Drizzle · deployed on Vercel.
 - `drizzle/schema.ts`: database schema · `lib/db.ts`: Drizzle client
 - `lib/maintenance-suggestions.ts`: `MaintenanceSuggestion` type, `getMaintenanceSuggestions(car, records, now)` (returns sample data for now; to be generated from maintenance history and mileage) and `isDueSoon` / `isOverdue` (due within `DUE_SOON_MONTHS` = highlighted in red). Shown on `/cars/[id]`; editing lives at `/cars/[id]/edit`
 - `components/ui/`: shadcn components · `components/`: app components (`PageHeader`, `ActionForm`, `SubmitButton`, …)
-- `components/ai-elements/`: AI Elements (Vercel's shadcn-based chat components; patched for Base UI, see comments) · `components/chat/`: floating AI chat (`ChatWidget`, rendered on the home and car pages only); replies are mocked in `lib/chat/mock-reply.ts` until the AI SDK is wired up
+- `components/ai-elements/`: AI Elements (Vercel's shadcn-based chat components; patched for Base UI, see comments) · `components/chat/`: floating AI chat (`ChatWidget`, rendered on the home and car pages only); `app/api/chat/route.ts` streams replies from Gemini (`lib/ai.ts`) via `useChat`
 
 ## Conventions
 
@@ -33,6 +33,7 @@ Supabase Auth · PostgreSQL (Supabase) via Drizzle · deployed on Vercel.
 - **Server actions must authorize**: call `requireUser()` and scope every query to the user (`eq(cars.userId, user.id)` or `assertCarOwnership`). Bound arguments (`action.bind(null, id)`) come back from the client and can be tampered with.
 - Pages are Server Components that `await` data inside a `<Suspense>` boundary; keep `"use client"` to the smallest leaf that needs it.
 - Forms: `ActionForm` (runs the action, shows a Sonner toast, optional `redirectTo`) with `SubmitButton` inside. Don't `redirect()` from actions used by `ActionForm`.
+- **Single responsibility**: one component does one thing. When a component starts handling two concerns (e.g. owning state *and* rendering a list), split it — the parent keeps the state, the child takes it as props (see `CarsView` / `ViewModeSwitcher`).
 
 ## Database
 

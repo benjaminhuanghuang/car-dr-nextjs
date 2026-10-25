@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { LayoutGrid, List as ListIcon } from "lucide-react";
 import type { cars } from "@/drizzle/schema";
 import type { CarColor } from "@/lib/car-colors";
 import type { CarMaintenanceSummary } from "@/lib/maintenance-suggestions";
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
 import { CarCard } from "@/components/car-card";
 import { CarListItem } from "@/components/car-list-item";
+import { ViewModeSwitcher, type ViewMode } from "@/components/cars/view-mode-switcher";
 
 export type CarListEntry = {
   car: typeof cars.$inferSelect;
@@ -16,9 +14,8 @@ export type CarListEntry = {
   summary: CarMaintenanceSummary;
 };
 
-type ViewMode = "grid" | "list";
-
-export function CarsView({ entries }: { entries: CarListEntry[] }) {
+/** Renders `entries` as a grid or list, with a switcher to toggle between them. */
+export function CarList({ entries }: { entries: CarListEntry[] }) {
   const [view, setView] = useState<ViewMode>("grid");
 
   return (
@@ -28,28 +25,7 @@ export function CarsView({ entries }: { entries: CarListEntry[] }) {
           Showing {entries.length}{" "}
           {entries.length === 1 ? "vehicle" : "vehicles"}
         </p>
-        <ButtonGroup>
-          <Button
-            type="button"
-            variant={view === "grid" ? "secondary" : "outline"}
-            size="icon-sm"
-            aria-label="Grid view"
-            aria-pressed={view === "grid"}
-            onClick={() => setView("grid")}
-          >
-            <LayoutGrid />
-          </Button>
-          <Button
-            type="button"
-            variant={view === "list" ? "secondary" : "outline"}
-            size="icon-sm"
-            aria-label="List view"
-            aria-pressed={view === "list"}
-            onClick={() => setView("list")}
-          >
-            <ListIcon />
-          </Button>
-        </ButtonGroup>
+        <ViewModeSwitcher value={view} onChange={setView} />
       </div>
 
       {view === "grid" ? (
