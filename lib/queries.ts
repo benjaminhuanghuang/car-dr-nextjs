@@ -1,4 +1,4 @@
-import { eq, count } from "drizzle-orm";
+import { eq, count, desc } from "drizzle-orm";
 import { db } from "./db";
 import { users, cars, maintenanceRecords } from "@/drizzle/schema";
 
@@ -16,6 +16,26 @@ export async function getMaintenanceForCar(carId: number) {
     .select()
     .from(maintenanceRecords)
     .where(eq(maintenanceRecords.carId, carId));
+}
+
+/** Maintenance records across all of a user's cars, newest first. */
+export async function getMaintenanceForUser(userId: number) {
+  return db
+    .select({
+      id: maintenanceRecords.id,
+      carId: maintenanceRecords.carId,
+      carYear: cars.year,
+      carMake: cars.make,
+      carModel: cars.model,
+      serviceDate: maintenanceRecords.serviceDate,
+      description: maintenanceRecords.description,
+      mileage: maintenanceRecords.mileage,
+      cost: maintenanceRecords.cost,
+    })
+    .from(maintenanceRecords)
+    .innerJoin(cars, eq(maintenanceRecords.carId, cars.id))
+    .where(eq(cars.userId, userId))
+    .orderBy(desc(maintenanceRecords.serviceDate));
 }
 
 export async function getAllUsersWithCarCounts() {
