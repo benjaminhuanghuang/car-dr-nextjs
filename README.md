@@ -5,7 +5,8 @@
 - Manage cars
 - Manage maintenance history
 - maintenance notification
-- Chat with AI
+- Chat with LLM
+- AI Tool calling
 
 ## Tech stacks
 
