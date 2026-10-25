@@ -1,7 +1,7 @@
 import { requireUser } from "@/lib/session";
 import { getReminders } from "@/lib/reminders";
-import { ReminderItem } from "@/components/reminders/reminder-item";
 import { ReminderListEmptyState } from "@/components/reminders/reminder-list-empty-state";
+import { ReminderListView } from "@/components/reminders/reminder-list-view";
 
 export async function ReminderList() {
   const user = await requireUser();
@@ -11,13 +11,5 @@ export async function ReminderList() {
     return <ReminderListEmptyState />;
   }
 
-  return (
-    <ul className="flex flex-col gap-3">
-      {reminders.map((reminder) => (
-        <li key={`${reminder.car.id}-${reminder.suggestion.service}`}>
-          <ReminderItem reminder={reminder} />
-        </li>
-      ))}
-    </ul>
-  );
+  return <ReminderListView reminders={reminders} />;
 }
