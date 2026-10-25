@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { PageHeader } from "@/components/page-header";
-import { ReminderListLoader } from "@/components/reminders/reminder-list-loader";
+import { ReminderList } from "@/components/reminders/reminder-list";
 import { ReminderListSkeleton } from "@/components/reminders/reminder-list-skeleton";
 
 export default function RemindersPage() {
@@ -8,7 +8,7 @@ export default function RemindersPage() {
     <>
       <PageHeader title="Reminders" />
       <Suspense fallback={<ReminderListSkeleton />}>
-        <ReminderListLoader />
+        <ReminderList />
       </Suspense>
     </>
   );

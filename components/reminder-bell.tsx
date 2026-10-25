@@ -5,22 +5,19 @@ import { cn } from "@/lib/utils";
 
 /** Nav bell linking to `/reminders`, badged with the count of due-soon/overdue items. */
 export async function ReminderBell({ userId }: { userId: number }) {
-  const reminders = await getReminders(userId, new Date());
+  const reminders = await getReminders(userId);
   const overdueCount = reminders.filter((r) => r.overdue).length;
+  const count = reminders.length;
 
   return (
     <Link
       href="/reminders"
-      aria-label={
-        reminders.length > 0
-          ? `Reminders: ${reminders.length} upcoming`
-          : "Reminders"
-      }
+      aria-label={count > 0 ? `Reminders: ${count} upcoming` : "Reminders"}
       className="inline-flex size-8 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-accent"
     >
       <span className="relative inline-flex">
         <Bell className="size-4.5" aria-hidden />
-        {reminders.length > 0 && (
+        {count > 0 && (
           <span
             aria-hidden
             className={cn(
@@ -30,7 +27,7 @@ export async function ReminderBell({ userId }: { userId: number }) {
                 : "bg-warning text-warning-foreground"
             )}
           >
-            {reminders.length > 9 ? "9+" : reminders.length}
+            {count > 9 ? "9+" : count}
           </span>
         )}
       </span>

@@ -3,9 +3,9 @@ import { getReminders } from "@/lib/reminders";
 import { ReminderItem } from "@/components/reminders/reminder-item";
 import { ReminderListEmptyState } from "@/components/reminders/reminder-list-empty-state";
 
-export async function ReminderListLoader() {
+export async function ReminderList() {
   const user = await requireUser();
-  const reminders = await getReminders(user.id, new Date());
+  const reminders = await getReminders(user.id);
 
   if (reminders.length === 0) {
     return <ReminderListEmptyState />;
