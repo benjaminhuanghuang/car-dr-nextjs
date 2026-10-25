@@ -17,7 +17,8 @@ Supabase Auth · PostgreSQL (Supabase) via Drizzle · deployed on Vercel.
 ## Project layout
 
 - `app/page.tsx`: public home page (full width, renders Nav/Footer itself)
-- `app/(app)/`: signed-in pages (`cars`, `admin`, `profile`); its layout provides Nav, Footer and the page container
+- `app/(app)/`: signed-in pages (`cars`, `admin`, `profile`, `reminders`); its layout provides Nav, Footer and the page container
+- `lib/reminders.ts`: `getReminders(userId, now)` — maintenance due soon/overdue across all of a user's cars (built on `getMaintenanceSuggestions`), used by `/reminders` and the nav bell (`components/reminder-bell.tsx`)
 - `app/(auth)/`: sign in / sign up / password reset; `app/auth/confirm`: Supabase email callback
 - `proxy.ts`: route protection (Next 16's replacement for middleware)
 - `lib/actions/`: server actions · `lib/queries.ts`: reads · `lib/session.ts`: `getCurrentUser` / `requireUser` / `requireAdmin`

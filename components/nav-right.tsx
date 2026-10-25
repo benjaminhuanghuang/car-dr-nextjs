@@ -3,6 +3,7 @@ import { cn } from "cn";
 import { getCurrentUser } from "@/lib/session";
 import { signOut } from "@/lib/actions/auth";
 import { buttonVariants } from "@/components/ui/button";
+import { ReminderBell } from "@/components/reminder-bell";
 import { NavLink } from "./nav-link";
 
 export async function NavRight() {
@@ -29,6 +30,7 @@ export async function NavRight() {
 
   return (
     <div className="flex items-center gap-4 text-sm font-medium">
+      <ReminderBell userId={user.id} />
       <NavLink href="/profile">Profile</NavLink>
       <NavLink href="/cars">Cars</NavLink>
       {user.isAdmin && <NavLink href="/admin">Admin</NavLink>}
