@@ -1,4 +1,4 @@
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 /** Same shape as the car cards, so the list doesn't jump when it loads. */
@@ -22,6 +22,10 @@ export function CarListSkeleton() {
                 <Skeleton className="h-5 w-40" />
                 <Skeleton className="h-4 w-28" />
               </CardHeader>
+              <CardContent className="flex flex-col gap-1 pb-4">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+              </CardContent>
             </Card>
           </li>
         ))}
