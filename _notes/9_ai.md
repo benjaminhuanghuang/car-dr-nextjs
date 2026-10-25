@@ -3,6 +3,7 @@
 Vercel AI SDK AI Elements + useChat
 
 ```sh
+npm i @ai-sdk/google @ai-sdk/react
 npx ai-elements@latest add conversation message prompt-input
 ```
 

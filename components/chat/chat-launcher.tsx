@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { nanoid } from "nanoid";
-import type { ChatStatus, UIMessage } from "ai";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -10,7 +10,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ChatPanel } from "@/components/chat/chat-panel";
-import { streamMockReply } from "@/lib/chat/mock-reply";
 
 /**
  * Round "AI" button fixed to the bottom-right corner. Signed-in users open the
@@ -19,9 +18,9 @@ import { streamMockReply } from "@/lib/chat/mock-reply";
  */
 export function ChatLauncher({ signedIn }: { signedIn: boolean }) {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<UIMessage[]>([]);
-  const [status, setStatus] = useState<ChatStatus>("ready");
-  const abortRef = useRef<AbortController | null>(null);
+  const { messages, sendMessage, status, stop } = useChat({
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
+  });
   const launcherRef = useRef<HTMLButtonElement>(null);
   const wasOpen = useRef(false);
 
@@ -31,39 +30,13 @@ export function ChatLauncher({ signedIn }: { signedIn: boolean }) {
     wasOpen.current = open;
   }, [open]);
 
-  async function send(text: string) {
-    const assistantId = nanoid();
-    setMessages((prev) => [
-      ...prev,
-      { id: nanoid(), role: "user", parts: [{ type: "text", text }] },
-    ]);
-    setStatus("submitted");
-
-    const controller = new AbortController();
-    abortRef.current = controller;
-    let reply = "";
-    for await (const chunk of streamMockReply(controller.signal)) {
-      reply += chunk;
-      setStatus("streaming");
-      setMessages((prev) => [
-        ...prev.filter((m) => m.id !== assistantId),
-        {
-          id: assistantId,
-          role: "assistant",
-          parts: [{ type: "text", text: reply }],
-        },
-      ]);
-    }
-    setStatus("ready");
-  }
-
   if (open) {
     return (
       <ChatPanel
         messages={messages}
         status={status}
-        onSend={send}
-        onStop={() => abortRef.current?.abort()}
+        onSend={(text) => sendMessage({ text })}
+        onStop={stop}
         onClose={() => setOpen(false)}
       />
     );
