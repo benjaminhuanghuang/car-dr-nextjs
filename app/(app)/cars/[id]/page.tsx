@@ -33,15 +33,7 @@ import { CarColorLabel } from "@/components/car-color-label";
 import { IconTile } from "@/components/icon-tile";
 import { PageHeader } from "@/components/page-header";
 import { cn } from "@/lib/utils";
-
-const dateFormat = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-  timeZone: "UTC",
-});
-const formatDate = (iso: string) => dateFormat.format(new Date(iso));
-const formatMiles = (miles: number) => `${miles.toLocaleString("en-US")} mi`;
+import { formatDate, formatMiles } from "@/lib/format";
 
 export default function CarPage(props: PageProps<"/cars/[id]">) {
   return (

@@ -78,6 +78,57 @@ export function getMaintenanceSuggestions(
   return sample.sort((a, b) => a.dueDate.localeCompare(b.dueDate));
 }
 
+/** Condensed view of a car's maintenance state, for a car list/card. */
+export type CarMaintenanceSummary = {
+  overdueCount: number;
+  lastService: {
+    service: string;
+    date: string;
+    mileage: number | null;
+  } | null;
+  nextService: {
+    service: string;
+    dueDate: string;
+    dueMileage: number | null;
+  } | null;
+};
+
+/** Summarizes suggestions (soonest-due first, as returned by `getMaintenanceSuggestions`). */
+export function summarizeMaintenance(
+  suggestions: MaintenanceSuggestion[],
+  now: Date
+): CarMaintenanceSummary {
+  const overdueCount = suggestions.filter((s) => isOverdue(s, now)).length;
+
+  const mostRecentlyServiced = suggestions
+    .filter((s) => s.lastDate != null)
+    .reduce<MaintenanceSuggestion | null>(
+      (latest, s) =>
+        !latest || s.lastDate! > latest.lastDate! ? s : latest,
+      null
+    );
+
+  const nextDue = suggestions[0] ?? null;
+
+  return {
+    overdueCount,
+    lastService: mostRecentlyServiced
+      ? {
+          service: mostRecentlyServiced.service,
+          date: mostRecentlyServiced.lastDate!,
+          mileage: mostRecentlyServiced.lastMileage,
+        }
+      : null,
+    nextService: nextDue
+      ? {
+          service: nextDue.service,
+          dueDate: nextDue.dueDate,
+          dueMileage: nextDue.dueMileage,
+        }
+      : null,
+  };
+}
+
 function startOfDayUTC(date: Date) {
   return new Date(
     Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())

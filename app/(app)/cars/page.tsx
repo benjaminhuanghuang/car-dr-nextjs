@@ -1,17 +1,10 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { Car, ChevronRight, Plus } from "lucide-react";
-import { getCarsForUser } from "@/lib/queries";
+import { Car, Plus } from "lucide-react";
+import { getCarsForUser, getMaintenanceForCar } from "@/lib/queries";
 import { requireUser } from "@/lib/session";
-import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardAction,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import {
   Empty,
   EmptyContent,
@@ -22,8 +15,9 @@ import {
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageHeader } from "@/components/page-header";
-import { CarColorLabel } from "@/components/car-color-label";
 import { getCarColor } from "@/lib/car-colors";
+import { getMaintenanceSuggestions, summarizeMaintenance } from "@/lib/maintenance-suggestions";
+import { CarsView, type CarListEntry } from "@/components/cars/cars-view";
 
 export default function CarsPage() {
   return (
@@ -70,77 +64,43 @@ async function CarsList() {
     );
   }
 
-  return (
-    <ul className="flex flex-col gap-3">
-      {userCars.map((car) => {
-        const color = getCarColor(car.color);
-        return (
-          <li key={car.id}>
-            <Link
-              href={`/cars/${car.id}`}
-              className="group block rounded-xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-            >
-              <Card className="relative transition-colors group-hover:bg-muted/50">
-                {color && (
-                  <span
-                    aria-hidden
-                    className="absolute inset-y-0 left-0 w-1.5"
-                    style={{ backgroundColor: color.swatch }}
-                  />
-                )}
-                <CardHeader>
-                  <CardTitle>
-                    {car.year} {car.make} {car.model}
-                  </CardTitle>
-                  <CardDescription className="flex flex-wrap items-center gap-3">
-                    {color && <CarColorLabel color={color} />}
-                    {car.mileage != null && (
-                      <span className="tabular-nums">
-                        {car.mileage.toLocaleString("en-US")} mi
-                      </span>
-                    )}
-                    {car.licensePlate ? (
-                      <Badge variant="outline" className="font-mono">
-                        {car.licensePlate}
-                      </Badge>
-                    ) : (
-                      "No license plate"
-                    )}
-                  </CardDescription>
-                  <CardAction className="self-center">
-                    <ChevronRight
-                      aria-hidden
-                      className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5"
-                    />
-                  </CardAction>
-                </CardHeader>
-              </Card>
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+  const now = new Date();
+  const entries: CarListEntry[] = await Promise.all(
+    userCars.map(async (car) => {
+      const records = await getMaintenanceForCar(car.id);
+      const suggestions = getMaintenanceSuggestions(car, records, now);
+      return {
+        car,
+        color: getCarColor(car.color),
+        summary: summarizeMaintenance(suggestions, now),
+      };
+    }),
   );
+
+  return <CarsView entries={entries} />;
 }
 
 /** Same shape as the car cards, so the list doesn't jump when it loads. */
 function CarsListSkeleton() {
   return (
-    <ul
-      className="flex flex-col gap-3"
-      aria-busy="true"
-      aria-label="Loading cars"
-    >
-      {[0, 1, 2].map((i) => (
-        <li key={i}>
-          <Card>
-            <CardHeader>
-              <Skeleton className="h-5 w-48" />
-              <Skeleton className="h-4 w-28" />
-            </CardHeader>
-          </Card>
-        </li>
-      ))}
-    </ul>
+    <div className="flex flex-col gap-4" aria-busy="true" aria-label="Loading cars">
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-4 w-28" />
+        <Skeleton className="h-7 w-16 rounded-lg" />
+      </div>
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {[0, 1, 2].map((i) => (
+          <li key={i}>
+            <Card className="py-0">
+              <div className="h-28 bg-muted" />
+              <CardHeader className="pt-4">
+                <Skeleton className="h-5 w-40" />
+                <Skeleton className="h-4 w-28" />
+              </CardHeader>
+            </Card>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
