@@ -9,10 +9,10 @@
 
 ## Tech stacks
 
-- Next.js 16 + React 19 + Tailwind CSS 4 + shadcn
-- PostgreSQL(supabase) + Drizzle
+- Next.js 16 + React 19 + Tailwind CSS 4 + Shadcn + Vercel AI elements
+- PostgreSQL(Supabase) + Drizzle
 - Supabase Auth
-- vercel AI SDK 7
+- Vercel AI SDK 7 + Gemini-3.5-flash-lite
 
 ## Engineering
 
