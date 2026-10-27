@@ -19,6 +19,19 @@
 
 - husky + lint-staged + gitleaks
 
+## Architecture
+
+```mermaid
+flowchart TD
+    A["Frontend<br/>Next.js / React Chat UI"]
+    B["AI API Route<br/>Auth / streamText"]
+    C["LLM + Tool Calling<br/>Gemini / Vercel AI SDK"]
+    D["Business Query Layer<br/>getCarsForUser / getMaintenanceForUser"]
+    E["PostgreSQL<br/>Car information / maintenance log"]
+
+    A --> B --> C --> D --> E
+```
+
 ## Web URL
 
 <https://car-dr-nextjs.vercel.app/>
