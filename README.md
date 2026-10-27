@@ -22,6 +22,7 @@
 ## Architecture
 
 ```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 500}}}%%
 flowchart TD
     A["Frontend<br/>Next.js / React Chat UI"]
     B["AI API Route<br/>Auth / streamText"]
