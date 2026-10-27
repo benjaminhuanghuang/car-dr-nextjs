@@ -1,4 +1,4 @@
-import { eq, count, desc } from "drizzle-orm";
+import { eq, and, count, desc } from "drizzle-orm";
 import { db } from "./db";
 import { users, cars, maintenanceRecords } from "@/drizzle/schema";
 
@@ -6,8 +6,12 @@ export async function getCarsForUser(userId: number) {
   return db.select().from(cars).where(eq(cars.userId, userId));
 }
 
-export async function getCarById(carId: number) {
-  const [car] = await db.select().from(cars).where(eq(cars.id, carId));
+/** A car, scoped to its owner; undefined if it doesn't exist or belongs to someone else. */
+export async function getOwnedCar(carId: number, userId: number) {
+  const [car] = await db
+    .select()
+    .from(cars)
+    .where(and(eq(cars.id, carId), eq(cars.userId, userId)));
   return car;
 }
 

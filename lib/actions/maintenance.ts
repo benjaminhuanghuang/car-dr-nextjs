@@ -1,14 +1,15 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { cars, maintenanceRecords } from "@/drizzle/schema";
+import { maintenanceRecords } from "@/drizzle/schema";
 import { requireUser } from "@/lib/session";
+import { getOwnedCar } from "@/lib/queries";
 
 async function assertCarOwnership(carId: number, userId: number) {
-  const [car] = await db.select().from(cars).where(eq(cars.id, carId));
-  if (!car || car.userId !== userId) {
+  const car = await getOwnedCar(carId, userId);
+  if (!car) {
     throw new Error("Car not found");
   }
 }
@@ -42,7 +43,9 @@ export async function deleteMaintenanceRecord(
 
   await db
     .delete(maintenanceRecords)
-    .where(eq(maintenanceRecords.id, recordId));
+    .where(
+      and(eq(maintenanceRecords.id, recordId), eq(maintenanceRecords.carId, carId)),
+    );
 
   revalidatePath(`/cars/${carId}/maintenance`);
 }

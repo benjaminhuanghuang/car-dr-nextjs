@@ -9,7 +9,7 @@ import {
   Trash2,
   Wrench,
 } from "lucide-react";
-import { getCarById, getMaintenanceForCar } from "@/lib/queries";
+import { getOwnedCar, getMaintenanceForCar } from "@/lib/queries";
 import {
   createMaintenanceRecord,
   deleteMaintenanceRecord,
@@ -99,9 +99,9 @@ async function MaintenanceContent({
   const { id } = await paramsPromise;
   const carId = Number(id);
   const user = await requireUser();
-  const car = await getCarById(carId);
+  const car = await getOwnedCar(carId, user.id);
 
-  if (!car || car.userId !== user.id) {
+  if (!car) {
     notFound();
   }
 

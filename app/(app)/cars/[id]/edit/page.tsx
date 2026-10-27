@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Car, Trash2 } from "lucide-react";
-import { getCarById } from "@/lib/queries";
+import { getOwnedCar } from "@/lib/queries";
 import { updateCar, deleteCar } from "@/lib/actions/cars";
 import { requireUser } from "@/lib/session";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -55,9 +55,9 @@ async function EditCar({
   const { id } = await paramsPromise;
   const carId = Number(id);
   const user = await requireUser();
-  const car = await getCarById(carId);
+  const car = await getOwnedCar(carId, user.id);
 
-  if (!car || car.userId !== user.id) {
+  if (!car) {
     notFound();
   }
 
